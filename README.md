@@ -1,4 +1,4 @@
 SimpleWarp
 ==========
 
-SimpleWarp update for API 14
+SimpleWarp update for API 1.0.0
