@@ -1,8 +1,9 @@
 name: SimpleWarp
 main: SimpleWarp\SimpleWarp
-version: "1.0"
+version: 1.0
 author: Falk
-api: "1.0.0"
+api: [1.0.0]
+load: POSTWORLD
 
 commands:
  warp:
