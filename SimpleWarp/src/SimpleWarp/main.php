@@ -17,10 +17,9 @@ use SimpleWarp\warp;
 class SimpleWarp extends PluginBase implements CommandExecutor, Listener{
 	public function onEnable(){
 		@mkdir($this->getDataFolder());
-		$this->config = (new Config($this->getDataFolder()."warps.yml", Config::YAML, array()))->getAll();
-
+		$this->warps = $this->parseWarps(new Config($this->getDataFolder()."warps.yml", Config::YAML, array()))->getAll());
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		console(TextFormat::GREEN . "[INFO] SimpleWarp loaded!");
+		$this->getLogger()->log(TextFormat::GREEN . "[INFO] SimpleWarp loaded!");
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args){
@@ -40,6 +39,13 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener{
 		}
 	}
 	public function onDisable(){		
-		console("SimpleWarp unloading...");
+		$this->getLogger()->log("SimpleWarp unloading...");
+	}
+	public function parseWarps($w){
+		$ret = array();
+		foreach ($w as $n => $data) {
+			$ret[$n] = new Warp(new Position($data[0],$data[1],$data[2]));
+		}
+		return $ret;
 	}
 }
