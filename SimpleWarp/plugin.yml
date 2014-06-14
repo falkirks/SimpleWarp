@@ -1,0 +1,30 @@
+name: SimpleWarp
+main: SimpleWarp\SimpleWarp
+version: 1.0
+author: Falk
+api: [1.0.0]
+load: POSTWORLD
+commands:
+ warp:
+  permission: simplewarp.warp
+  description: Warp to a location
+  usage: /warp <NAME>
+ addwarp:
+  permission: simplewarp.manage
+  description: Add a new warp point
+  usage: /addwarp <NAME>
+ delwarp:
+  permission: simplewarp.manage
+  description: Delete a warp point
+  usage: /delwarp <NAME>
+permissions:
+ simplewarp:
+  default: op
+  description: Top level SimpleWarp permission
+  children:
+   simplewarp.manage:
+    default: op
+    description: Manage all warps
+   simplewarp.all:
+    default: op
+    description: Allows warp to all warp locations

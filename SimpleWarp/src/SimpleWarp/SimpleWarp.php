@@ -11,14 +11,17 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\level\position;
+use pocketmine\level\Level;
+use pocketmine\permission\Permission;
 
 use SimpleWarp\warp;
 
 class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
   public function onEnable() {
     @mkdir($this->getDataFolder());
-    $this->warps = $this->parseWarps((new Config($this->getDataFolder()."warps.yml", Config::YAML, array()))->getAll());
-    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+    $this->config = new Config($this->getDataFolder()."warps.yml", Config::YAML, array());
+    $this->warps = $this->parseWarps($this->config->getAll());
+    //$this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->getLogger()->info("SimpleWarp loaded!\n");
   }
 
@@ -27,7 +30,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
       case "warp":
       	if ($sender instanceof Player) {
           if (isset($args[0])){
-  				  if (isset($this->warps[$params[0]])) $this->warps[$params[0]]->warp($sender);
+  				  if (isset($this->warps[$args[0]])) $this->warps[$args[0]]->warp($sender);
   				  else $sender->sendMessage("Warp does not exist!");
             return true;
 			   }
@@ -39,11 +42,10 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
       break;
     case "addwarp":
       if ($sender instanceof Player) {
-        if(isset($arags[0])){
-          $yml = $this->api->plugin->readYAML($this->api->plugin->configPath($this). "warps.yml");
-          $yml[$args[0]] = array($sender->x, $sender->y, $sender->z, $sender->getLevel()->getName());
-          $this->api->plugin->writeYAML($this->api->plugin->configPath($this)."warps.yml", $yml);
-          $this->warps = $this->parseWarps($yml);
+        if(isset($args[0])){
+          $this->config->set($args[0], array((int) $sender->x, (int) $sender->y, (int) $sender->z, $sender->getLevel()->getName()));
+          $this->config->save();
+          $this->warps = $this->parseWarps($this->config->getAll());
           $sender->sendMessage("New warp created, " . $args[0]);
           return true;
         }
@@ -67,8 +69,20 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
   public function parseWarps($w) {
     $ret = array();
     foreach ($w as $n => $data) {
-      $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $this->getServer()->getLevel($data[3])), $n);
+      if(($level = $this->fetchLevel($data[3])) == false) $this->getLogger()->error($data[3] . " is not loaded. Warp " . $n . " is disabled.");
+      else $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $level), $n);
     }
     return $ret;
+  }
+  public function fetchLevel($name){
+    foreach ($this->getServer()->getLevels() as $n => $lev) {
+      if ($name === $lev->getName()) {
+        return $lev;
+      }
+    }
+    return false;
+  }
+  public function registerPerm($name){
+
   }
 }

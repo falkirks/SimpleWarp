@@ -14,12 +14,12 @@ class Warp{
 		$this->name = $n;
 	}
 	public function warp(CommandSender $s){
-		if($s->isPermissionSet("simplewarp.all") || $s->isPermissionSet("simplewarp.warp." . $this->name)){
+		if($s->hasPermission("simplewarp.all") || $s->isPermissionSet("simplewarp.warp." . $this->name)){
 			$s->teleport($this->p);
 			$s->sendMessage("You just teleported to " . $this->name);
 		}
 		else{
-			$s->sendMessage("You don't have permission to use this warp.")
+			$s->sendMessage("You don't have permission to use this warp.");
 		}
 	}
 }
