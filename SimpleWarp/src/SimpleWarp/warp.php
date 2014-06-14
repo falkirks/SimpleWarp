@@ -14,7 +14,7 @@ class Warp{
 		$this->name = $n;
 	}
 	public function warp(CommandSender $s){
-		if($s->hasPermission("simplewarp.all") || $s->isPermissionSet("simplewarp.warp." . $this->name)){
+		if($s->hasPermission("simplewarp.warp") || $s->hasPermission("simplewarp.warp.".$this->name)){
 			$s->teleport($this->p);
 			$s->sendMessage("You just teleported to " . $this->name);
 		}

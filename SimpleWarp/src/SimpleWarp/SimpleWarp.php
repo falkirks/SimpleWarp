@@ -20,8 +20,8 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
   public function onEnable() {
     @mkdir($this->getDataFolder());
     $this->config = new Config($this->getDataFolder()."warps.yml", Config::YAML, array());
-    $this->warps = $this->parseWarps($this->config->getAll());
-    //$this->getServer()->getPluginManager()->registerEvents($this, $this);
+    $this->perm = $this->getServer()->getPluginManager()->getPermission("simplewarp.warp"); 
+    $this->warps = $this->parseWarps($this->config->getAll()); 
     $this->getLogger()->info("SimpleWarp loaded!\n");
   }
 
@@ -56,7 +56,20 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
       }
       break;
     case "delwarp":
-
+      if (isset($args[0])) {
+        if(isset($this->warps[$args[0]])){
+          $this->getServer()->getPluginManager()->removePermission($this->getServer()->getPluginManager()->getPermission("simplewarp.warp." . $args[0])); 
+          $this->config->remove($args[0]);
+          $this->config->save();
+          unset($this->warps[$args[0]]);
+          $sender->sendMessage($args[0] . " has been remopved.");
+          return true;
+        }
+        else{
+          $sender->sendMessage($args[0] . " does not exist.");
+          return true;
+        }
+      }
       break;
     default:
       return false;
@@ -70,7 +83,10 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     $ret = array();
     foreach ($w as $n => $data) {
       if(($level = $this->fetchLevel($data[3])) == false) $this->getLogger()->error($data[3] . " is not loaded. Warp " . $n . " is disabled.");
-      else $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $level), $n);
+      else{
+        $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $level), $n);
+        $this->warpPermission($ret[$n]);
+      }
     }
     return $ret;
   }
@@ -82,7 +98,9 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     }
     return false;
   }
-  public function registerPerm($name){
-
+  public function warpPermission(Warp $w){
+    $p = new Permission("simplewarp.warp." . $w->name,"Allow use of " . $w->name);
+    $this->perm->getChildren()[$p->getName()] = true;
+    $this->getServer()->getPluginManager()->addPermission($p);
   }
 }
