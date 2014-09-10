@@ -5,6 +5,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\event\Listener;
+use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -73,7 +74,8 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     public function parseWarps(array $w) {
         $ret = [];
         foreach ($w as $n => $data) {
-            if(($level = $this->getServer()->getLevelByName($data[3])) == false) $this->getLogger()->error($data[3] . " is not loaded. Warp " . $n . " is disabled.");
+            $this->getServer()->loadLevel($data[3]);
+            if(($level = $this->getServer()->getLevelByName($data[3])) === null) $this->getLogger()->error($data[3] . " is not loaded. Warp " . $n . " is disabled.");
             else{
                 $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $level), $n);
                 $this->warpPermission($ret[$n]);
