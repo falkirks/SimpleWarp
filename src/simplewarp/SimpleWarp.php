@@ -13,7 +13,13 @@ use pocketmine\permission\Permission;
 
 
 class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
-    public $config, $warps, $perm;
+    /** @var  Permission */
+    public $perm;
+    /** @var  Warp[] */
+    public $warps;
+    /** @var Config */
+    public $config;
+
     public function onEnable() {
         @mkdir($this->getDataFolder());
         $this->config = new Config($this->getDataFolder()."warps.yml", Config::YAML, array());
@@ -23,16 +29,53 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
         switch($cmd->getName()) {
             case "warp":
-                if ($sender instanceof Player) {
-                    if (isset($args[0])){
-                        if (isset($this->warps[$args[0]])) $this->warps[$args[0]]->warp($sender);
-                        else $sender->sendMessage("Warp does not exist!");
+                if (isset($args[0])){
+                    if (isset($this->warps[$args[0]])){
+                        if(isset($args[1])){
+                            if($sender->hasPermission("simplewarp.other")){
+                                $p = $this->getServer()->getPlayer($args[1]);
+                                if($p !== null && $p->isOnline()){
+                                    $this->warps[$args[0]]->warpAs($sender, $p);
+                                    return true;
+                                }
+                                else{
+                                    $sender->sendMessage("Couldn't find player.");
+                                    return true;
+                                }
+                            }
+                            else{
+                                $sender->sendMessage("You don't have permission to warp others.");
+                                return true;
+                            }
+                        }
+                        elseif($sender instanceof Player){
+                            $this->warps[$args[0]]->warp($sender);
+                            return true;
+                        }
+                        else{
+                            $sender->sendMessage("You must specify a player to warp.");
+                            return true;
+                        }
+                    }
+                    else{
+                        $sender->sendMessage("Warp not found.");
                         return true;
                     }
                 }
-                else {
-                    $sender->sendMessage("Please run command in game.");
-                    return true;
+                else{
+                    if($sender->hasPermission("simplewarp.list")){
+                        $ret = "Warp list:\n";
+                        foreach($this->warps as $w){
+                            if($w->canUse($sender)){
+                                $ret .= " -" . $w->name . "\n";
+                            }
+                        }
+                        $sender->sendMessage(($ret !== "Warp list:\n" ? $ret : "No warps found."));
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 }
                 break;
             case "addwarp":

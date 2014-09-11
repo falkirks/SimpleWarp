@@ -1,13 +1,13 @@
 name: SimpleWarp
 main: simplewarp\SimpleWarp
-version: 1.2
+version: 1.3
 author: Falk
 api: [1.0.0]
 load: POSTWORLD
 commands:
  warp:
   description: Warp to a location
-  usage: /warp <NAME>
+  usage: /warp <NAME> [player]
  addwarp:
   permission: simplewarp.manage
   description: Add a new warp point
@@ -24,6 +24,12 @@ permissions:
    simplewarp.manage:
     default: op
     description: Manage all warps
+   simplewarp.list:
+    default: true
+    description: Can view a list off accessible warps
+   simplewarp.other:
+    default: op
+    description: Warp other players
    simplewarp.warp:
     default: op
     description: Allows usage of all warps
