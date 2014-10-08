@@ -128,7 +128,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     }
     public function warpPermission(Warp $w){
         $p = new Permission("simplewarp.warp." . $w->name,"Allow use of " . $w->name);
-        $this->perm->getChildren()[$p->getName()] = true;
+        $this->perm->getChildren("simplewarp.warp.")[$p->getName("simplewarp.list.")] = true;
         $this->getServer()->getPluginManager()->addPermission($p);
     }
 }
