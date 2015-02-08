@@ -34,4 +34,19 @@ class Warp{
     public function canUse(CommandSender $player){
         return ($player->hasPermission("simplewarp.warp") || $player->hasPermission("simplewarp.warp.".$this->name));
     }
+
+    /**
+     * @return Position
+     */
+    public function getPosition(){
+        return $this->p;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName(){
+        return $this->name;
+    }
+
 }

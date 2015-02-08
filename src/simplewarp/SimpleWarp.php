@@ -18,13 +18,16 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     /** @var  Warp[] */
     public $warps;
     /** @var Config */
-    public $config;
+    public $warpConfig;
+    /** @var  array */
+    private $publicList;
 
     public function onEnable() {
         @mkdir($this->getDataFolder());
-        $this->config = new Config($this->getDataFolder()."warps.yml", Config::YAML, array());
+        $this->warpConfig = new Config($this->getDataFolder()."warps.yml", Config::YAML, array());
+        $this->publicList = (new Config($this->getDataFolder() . "public.yml", Config::ENUM))->getAll();
         $this->perm = $this->getServer()->getPluginManager()->getPermission("simplewarp.warp");
-        $this->warps = $this->parseWarps($this->config->getAll());
+        $this->warps = $this->parseWarps($this->warpConfig->getAll());
     }
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) {
         switch($cmd->getName()) {
@@ -81,9 +84,9 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
             case "addwarp":
                 if ($sender instanceof Player) {
                     if(isset($args[0])){
-                        $this->config->set($args[0], [$sender->getFloorX(), $sender->getFloorY(), (int) $sender->getFloorZ(), $sender->getLevel()->getName()]);
-                        $this->config->save();
-                        $this->warps = $this->parseWarps($this->config->getAll());
+                        $this->warpConfig->set($args[0], [$sender->getFloorX(), $sender->getFloorY(), (int) $sender->getFloorZ(), $sender->getLevel()->getName()]);
+                        $this->warpConfig->save();
+                        $this->warps = $this->parseWarps($this->warpConfig->getAll());
                         $sender->sendMessage("New warp created, " . $args[0]);
                         return true;
                     }
@@ -97,8 +100,8 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                 if (isset($args[0])) {
                     if(isset($this->warps[$args[0]])){
                         $this->getServer()->getPluginManager()->removePermission($this->getServer()->getPluginManager()->getPermission("simplewarp.warp." . $args[0]));
-                        $this->config->remove($args[0]);
-                        $this->config->save();
+                        $this->warpConfig->remove($args[0]);
+                        $this->warpConfig->save();
                         unset($this->warps[$args[0]]);
                         $sender->sendMessage($args[0] . " has been removed.");
                         return true;
@@ -127,7 +130,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
         return $ret;
     }
     public function warpPermission(Warp $w){
-        $p = new Permission("simplewarp.warp." . $w->name,"Allow use of " . $w->name);
+        $p = new Permission("simplewarp.warp." . $w->name,"Allow use of " . $w->name, isset($this->publicList[$w->getName()]));
         $this->perm->getChildren()[$p->getName()] = true;
         $this->getServer()->getPluginManager()->addPermission($p);
     }
