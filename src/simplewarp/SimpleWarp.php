@@ -47,7 +47,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                                 }
                             }
                             else{
-                                $sender->sendMessage("You don't have permission to warp others.");
+                                $sender->sendMessage("You don't have permission to teleport others.");
                                 return true;
                             }
                         }
@@ -61,7 +61,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                         }
                     }
                     else{
-                        $sender->sendMessage("Warp not found.");
+                        $sender->sendMessage("Warp was not found. Make sure to check the warp if its incorrect.");
                         return true;
                     }
                 }
@@ -73,7 +73,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                                 $ret .= " -" . $w->name . "\n";
                             }
                         }
-                        $sender->sendMessage(($ret !== "Warp list:\n" ? $ret : "No warps found."));
+                        $sender->sendMessage(($ret !== "Warp list:\n" ? $ret : "No warps are found."));
                         return true;
                     }
                     else{
@@ -87,7 +87,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                         $this->warpConfig->set($args[0], [$sender->getFloorX(), $sender->getFloorY(), (int) $sender->getFloorZ(), $sender->getLevel()->getName()]);
                         $this->warpConfig->save();
                         $this->warps = $this->parseWarps($this->warpConfig->getAll());
-                        $sender->sendMessage("New warp created, " . $args[0]);
+                        $sender->sendMessage("You have created a new warp., " . $args[0]);
                         return true;
                     }
                 }
@@ -107,7 +107,7 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                         return true;
                     }
                     else{
-                        $sender->sendMessage($args[0] . " does not exist.");
+                        $sender->sendMessage($args[0] . " does not exist!.");
                         return true;
                     }
                 }
