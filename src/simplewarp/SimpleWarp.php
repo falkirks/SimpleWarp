@@ -25,7 +25,8 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
     public function onEnable() {
         @mkdir($this->getDataFolder());
         $this->warpConfig = new Config($this->getDataFolder()."warps.yml", Config::YAML, array());
-        $this->publicList = (new Config($this->getDataFolder() . "public.yml", Config::ENUM))->getAll();
+        $this->publicList = (new Config($this->getDataFolder() . "public.txt", Config::ENUM))->getAll();
+        var_dump($this->publicList);
         $this->perm = $this->getServer()->getPluginManager()->getPermission("simplewarp.warp");
         $this->warps = $this->parseWarps($this->warpConfig->getAll());
     }
@@ -66,20 +67,11 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                     }
                 }
                 else{
-                    if($sender->hasPermission("simplewarp.list")){
-                        $ret = "Warp list:\n";
-                        foreach($this->warps as $w){
-                            if($w->canUse($sender)){
-                                $ret .= " -" . $w->name . "\n";
-                            }
-                        }
-                        $sender->sendMessage(($ret !== "Warp list:\n" ? $ret : "No warps found."));
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
+                    return $this->listWarpsTo($sender);
                 }
+                break;
+            case 'listwarps':
+                return $this->listWarpsTo($sender);
                 break;
             case "addwarp":
                 if ($sender instanceof Player) {
@@ -117,13 +109,28 @@ class SimpleWarp extends PluginBase implements CommandExecutor, Listener {
                 break;
         }
     }
+    public function listWarpsTo(CommandSender $sender){
+        if($sender->hasPermission("simplewarp.list")){
+            $ret = "Warp list:\n";
+            foreach($this->warps as $w){
+                if($w->canUse($sender)){
+                    $ret .= " -" . $w->name . "\n";
+                }
+            }
+            $sender->sendMessage(($ret !== "Warp list:\n" ? $ret : "No warps found."));
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public function parseWarps(array $w) {
         $ret = [];
         foreach ($w as $n => $data) {
             $this->getServer()->loadLevel($data[3]);
             if(($level = $this->getServer()->getLevelByName($data[3])) === null) $this->getLogger()->error($data[3] . " is not loaded. Warp " . $n . " is disabled.");
             else{
-                $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $level), $n);
+                $ret[$n] = new Warp(new Position($data[0], $data[1], $data[2], $level), $n, isset($this->publicList[$n]));
                 $this->warpPermission($ret[$n]);
             }
         }

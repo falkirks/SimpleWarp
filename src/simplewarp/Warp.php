@@ -8,9 +8,12 @@ use pocketmine\Player;
 class Warp{
 	public $p;
 	public $name;
-	public function __construct(Position $pos, $n){
+    public $isPublic;
+
+	public function __construct(Position $pos, $n, $public = false){
 		$this->p = $pos;
 		$this->name = $n;
+        $this->isPublic = $public;
 	}
 	public function warp(CommandSender $p){
 		if($this->canUse($p) && $p instanceof Player){
@@ -32,7 +35,7 @@ class Warp{
         }
     }
     public function canUse(CommandSender $player){
-        return ($player->hasPermission("simplewarp.warp") || $player->hasPermission("simplewarp.warp.".$this->name));
+        return ($this->isPublic === true ? true : ($player->hasPermission("simplewarp.warp") || $player->hasPermission("simplewarp.warp.".$this->name)));
     }
 
     /**
