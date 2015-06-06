@@ -1,38 +1,37 @@
 name: SimpleWarp
-main: simplewarp\SimpleWarp
-version: 1.4
+main: falkirks\simplewarp\SimpleWarp
+version: 2.0
 author: Falk
 api: [1.0.0]
 load: POSTWORLD
-commands:
- warp:
-  description: Warp to a location
-  usage: /warp <NAME> [player]
- listwarps:
-  description: List existing warps
-  usage: /listwarps
- addwarp:
-  permission: simplewarp.manage
-  description: Add a new warp point
-  usage: /addwarp <NAME>
- delwarp:
-  permission: simplewarp.manage
-  description: Delete a warp point
-  usage: /delwarp <NAME>
+softdepend: ["FastTransfer"]
 permissions:
  simplewarp:
   default: op
-  description: Top level SimpleWarp permission
   children:
-   simplewarp.manage:
+   simplewarp.command:
     default: op
-    description: Manage all warps
-   simplewarp.list:
-    default: true
-    description: Can view a list off accessible warps
-   simplewarp.other:
-    default: op
-    description: Warp other players
+    children:
+     simplewarp.command.list:
+      default: true
+      children:
+       simplewarp.command.list.xyz:
+        default: op
+       simplewarp.command.list.visual:
+        default: op
+     simplewarp.command.addwarp:
+      default: op
+     simplewarp.command.delwarp:
+      default: op
+     simplewarp.command.warp:
+      default: true
+      children:
+        simplewarp.command.warp.other:
+         default: op
+     simplewarp.command.openwarp:
+      default: op
+     simplewarp.command.closewarp:
+       default: op
    simplewarp.warp:
     default: op
     description: Allows usage of all warps
