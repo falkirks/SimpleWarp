@@ -10,8 +10,6 @@ use pocketmine\Player;
 
 class PlayerWarpEvent extends PlayerEvent implements Cancellable{
     public static $handlerList = null;
-    /** @var  Player */
-    protected $player;
     /** @var  Warp */
     private $warp;
     /** @var Destination */
@@ -19,13 +17,6 @@ class PlayerWarpEvent extends PlayerEvent implements Cancellable{
     public function __construct(Player $player, Warp $warp){
         $this->player = $player;
         $this->warp = $warp;
-    }
-
-    /**
-     * @return Player
-     */
-    public function getPlayer(){
-        return $this->player;
     }
 
     /**
