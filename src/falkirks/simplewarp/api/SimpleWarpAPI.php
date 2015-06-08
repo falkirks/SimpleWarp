@@ -3,6 +3,8 @@ namespace falkirks\simplewarp\api;
 
 
 use falkirks\simplewarp\SimpleWarp;
+use falkirks\simplewarp\Warp;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
 /**
@@ -27,11 +29,29 @@ class SimpleWarpAPI {
     public function getTranslationItem($name){
         return $this->plugin->getTranslationManager()->get($name);
     }
+    public function getWarp($name){
+        return $this->getWarpManager()[$name];
+    }
+    public function warpPlayerTo(Player $player, $name){
+        $warp = $this->getWarp($name);
+        if($warp instanceof Warp){
+            $warp->teleport($player);
+            return true;
+        }
+        return false;
+    }
+    public function canPlayerUse(Player $player, $name){
+        $warp = $this->getWarp($name);
+        if($warp instanceof Warp){
+            return $warp->canUse($player);
+        }
+        return null;
+    }
     public function getWarpManager(){
         return $this->plugin->getWarpManager();
     }
     public function isFastTransferLoaded(){
-        return $this->getSimpleWarp()->getServer()->getPluginManager()->getPlugin("FastTrasnfer") instanceof PluginBase;
+        return $this->getSimpleWarp()->getServer()->getPluginManager()->getPlugin("FastTransfer") instanceof PluginBase;
     }
     /**
      * This will hopefully save someone typing.
