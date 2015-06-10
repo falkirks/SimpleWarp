@@ -26,7 +26,6 @@ class DelWarpCommand extends Command implements PluginIdentifiableCommand{
      */
     public function execute(CommandSender $sender, $commandLabel, array $args){
         if($sender->hasPermission(SimpleWarpPermissions::DEL_WARP_COMMAND)){
-            $sender->sendMessage("THIS IS DELWARP");
             if(isset($args[0])){
                 if(isset($this->api->getWarpManager()[$args[0]])) {
                     unset($this->api->getWarpManager()[$args[0]]);

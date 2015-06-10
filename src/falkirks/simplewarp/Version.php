@@ -5,7 +5,7 @@ namespace falkirks\simplewarp;
 use pocketmine\command\CommandSender;
 
 class Version {
-    const ENABLE_VERBOSE = true;
+    const ENABLE_VERBOSE = false;
     const VERSION_STRING = "v2.0.0 <-- It's a big one";
     private static $quotes = [
         "\"Still round the corner there may wait\nA new road or a secret gate\"\n- J.R.R. Tolkien",
