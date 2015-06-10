@@ -1,5 +1,4 @@
-SimpleWarp
-==========
+![SimpleWarp](/resources/simplewarp-2.png)
 
 SimpleWarp is the original warp plugin for PocketMine-MP. The goal of SimpleWarp is to make things painfully easy while covering the majority of use cases.
 
