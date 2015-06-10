@@ -8,3 +8,9 @@
 #                               >=>      The original warp plugin for PocketMine           >=>
 
 display-exact-coordinates: false
+  # If set to false the coordinates shown to the end user
+  # will be rounded, players will still be teleported to the
+  # exact location.
+storage-mode: 2
+  # Do NOT change this value unless you know what you are doing.
+  # The plugin hasn't been throughly tested in other modes.

@@ -27,7 +27,7 @@ class SimpleWarp extends PluginBase{
 
         $this->api = new SimpleWarpAPI($this);
         $this->translationManager = new TranslationManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "lang.yml", Config::YAML)));
-        $this->warpManager = new WarpManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "warps.yml", Config::YAML)));
+        $this->warpManager = new WarpManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "warps.yml", Config::YAML)), ($this->getConfig()->get('storage-mode') != null ? $this->getConfig()->get('storage-mode') : WarpManager::MEMORY_TILL_CLOSE));
         $this->getServer()->getCommandMap()->registerAll("simplewarp", [
             new WarpCommand($this->api),
             new AddWarpCommand($this->api),
