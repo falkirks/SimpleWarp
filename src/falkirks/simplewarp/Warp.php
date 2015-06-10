@@ -14,9 +14,9 @@ use pocketmine\Server;
  * @package falkirks\simplewarp
  */
 class Warp{
-    private $name;
-    private $destination;
-    private $isPublic;
+    protected $name;
+    protected $destination;
+    protected $isPublic;
 
     public function __construct($name, Destination $destination, $isPublic = false){
         $this->name = $name;

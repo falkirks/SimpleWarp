@@ -44,3 +44,26 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
     default: op
     description: Allows usage of all warps
 ```
+
+## API
+What good is a plugin without an API? SimpleWarp has an API which is used by it's own core components. 
+
+### Getting access
+Make sure to add the following to your `plugin.yml`
+
+```yaml
+depend: ["SimpleWarp"]
+```
+**Note:** If you use `softdepend` you will need to check if SimpleWarp is installed.
+
+Now you can a copy of the API in your `onEnable` method
+
+```php
+$api = SimpleWarpAPI::getInstance($this); // This only works inside a PluginBase
+```
+
+If you want to get the instance outside your main class, you can do
+
+```php
+$api = $server->getPluginManager()->getPlugin("SimpleWarp")->getApi(); // $server is an instance of \pocketmine\Server
+```

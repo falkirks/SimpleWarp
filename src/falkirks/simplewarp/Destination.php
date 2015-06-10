@@ -16,16 +16,20 @@ class Destination{
     protected $position;
     protected $address;
     protected $port;
+    protected $message;
+
     public function __construct(...$params){
         if(is_array($params[0])) $params = $params[0];
         if(isset($params[0])){
             if($params[0] instanceof Position){
                 $this->position = $params[0];
+                $this->message = (isset($params[1]) ? $params[1] : null);
             }
             else{
                 if(isset($params[1])){
                     $this->address = $params[0];
                     $this->port = $params[1];
+                    $this->message = (isset($params[2]) ? $params[2] : null);
                 }
                 else{
                     throw new \BadMethodCallException;
@@ -37,6 +41,10 @@ class Destination{
         }
     }
     public function teleport(Player $player){
+        if($this->message !== null){
+            $player->sendMessage($this->message);
+        }
+
         if($this->position instanceof Position){
             //Server::getInstance()->getLogger()->info($this->position->x . " : " . $this->position->y . " : " . $this->position->z);
             $player->teleport($this->position);

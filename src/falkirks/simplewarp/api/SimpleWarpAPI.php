@@ -32,6 +32,9 @@ class SimpleWarpAPI {
     public function getWarp($name){
         return $this->getWarpManager()[$name];
     }
+    public function addWarp($name, Warp $warp){
+        $this->getWarpManager()[$name] = $warp;
+    }
     public function warpPlayerTo(Player $player, $name){
         $warp = $this->getWarp($name);
         if($warp instanceof Warp){
