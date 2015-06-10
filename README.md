@@ -4,6 +4,9 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
  
 **SimpleWarp 2.0 is not compatible with older SimpleWarp and PocketMine versions.**
 
+## 2.0 betas
+2.0 is still under development and although most features are implemented, it needs to be thoroughly tested before being posted. You can get the latest beta at https://github.com/Falkirks/SimpleWarp/releases 
+
 ## Commands
 | Command | Usage | Description | 
 | ------- | ----- | ----------- |
