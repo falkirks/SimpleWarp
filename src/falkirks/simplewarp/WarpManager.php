@@ -9,6 +9,7 @@ use falkirks\simplewarp\store\Saveable;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\network\protocol\DataPacket;
+use pocketmine\utils\TextFormat;
 use Traversable;
 
 class WarpManager implements \ArrayAccess, \IteratorAggregate{
@@ -167,7 +168,7 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
             if($level instanceof Level) {
                 return new Warp($name, new Destination(new Position($array["x"], $array["y"], $array["z"], $level)), $array["public"]);
             }
-            throw new \Exception("Level not loaded. This warp can't be loaded.");
+            $this->api->getSimpleWarp()->getLogger()->critical("A warp with the name " . TextFormat::AQUA . $name . TextFormat::RESET . " is attached to a level which isn't loaded. It will be removed automatically when your server stops.");
         }
         return new Warp($name, new Destination($array["address"], $array["port"]), $array["public"]);
 
