@@ -18,7 +18,7 @@ use pocketmine\utils\TextFormat;
 class AddWarpCommand extends Command implements PluginIdentifiableCommand{
     private $api;
     public function __construct(SimpleWarpAPI $api){
-        parent::__construct("addwarp", "Add new warps.", "/addwarp <name> [<ip> <port>|<x> <y> <z> <level>|<player>]");
+        parent::__construct($api->executeTranslationItem("addwarp-cmd"), $api->executeTranslationItem("addwarp-desc"), $api->executeTranslationItem("addwarp-usage"));
         $this->api = $api;
     }
 
@@ -39,19 +39,19 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                             $dest = new Destination(new Position($args[1], $args[2], $args[3], $level));
                             $warp = new Warp($args[0], $dest);
                             $this->api->getWarpManager()[$args[0]] = $warp;
-                            $sender->sendMessage("You have created a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET . " " . $dest->toString());
+                            $sender->sendMessage($this->api->executeTranslationItem("warp-added-xyz", $args[0], $dest->toString()));
                         }
                         else {
-                            $sender->sendMessage(TextFormat::RED . "You specified a level which isn't loaded." . TextFormat::RESET);
+                            $sender->sendMessage($this->api->executeTranslationItem("level-not-loaded"));
                         }
                     }
                     elseif (isset($args[2])) {
                         $dest = new Destination($args[1], $args[2]);
                         $warp = new Warp($args[0], $dest);
                         $this->api->getWarpManager()[$args[0]] = $warp;
-                        $sender->sendMessage("You have created a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET . " " . $dest->toString());
+                        $sender->sendMessage($this->api->executeTranslationItem("warp-added-server", $args[0], $dest->toString()));
                         if (!$this->api->isFastTransferLoaded()) {
-                            $sender->sendMessage("This warp needs " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . ", you will need to install it to use this warp.");
+                            $sender->sendMessage($this->api->executeTranslationItem("needs-fast-transfer"));
                         }
                     }
                     elseif (isset($args[1])) {
@@ -59,10 +59,10 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                             $dest = new Destination(new Position($player->getX(), $player->getY(), $player->getZ(), $player->getLevel()));
                             $warp = new Warp($args[0], $dest);
                             $this->api->getWarpManager()[$args[0]] = $warp;
-                            $sender->sendMessage("You have created a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET . " " . $dest->toString());
+                            $sender->sendMessage($this->api->executeTranslationItem("warp-added-player", $args[0], $dest->toString()));
                         }
                         else {
-                            $sender->sendMessage(TextFormat::RED . "You specified a player which isn't loaded." . TextFormat::RESET);
+                            $sender->sendMessage($this->api->executeTranslationItem("player-not-loaded"));
                         }
                     }
                     else {
@@ -70,7 +70,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                             $dest = new Destination(new Position($sender->getX(), $sender->getY(), $sender->getZ(), $sender->getLevel()));
                             $warp = new Warp($args[0], $dest);
                             $this->api->getWarpManager()[$args[0]] = $warp;
-                            $sender->sendMessage("You have created a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET . " " . $dest->toString());
+                            $sender->sendMessage($this->api->executeTranslationItem("warp-added-self", $args[0], $dest->toString()));
                         }
                         else {
                             $sender->sendMessage($this->getUsage());
@@ -78,7 +78,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                     }
                 }
                 else{
-                    $sender->sendMessage(TextFormat::RED . "That warp name is invalid." . TextFormat::RESET);
+                    $sender->sendMessage($this->api->executeTranslationItem("bad-warp-name"));
                 }
             }
             else{
@@ -87,7 +87,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
             }
         }
         else{
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+            $sender->sendMessage($this->api->executeTranslationItem("addwarp-no-perm"));
         }
     }
 

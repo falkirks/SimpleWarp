@@ -15,7 +15,7 @@ use pocketmine\utils\TextFormat;
 class ListWarpsCommand extends Command implements PluginIdentifiableCommand{
     private $api;
     public function __construct(SimpleWarpAPI $api){
-        parent::__construct("listwarps", "List all your warps.", "/listwarps");
+        parent::__construct($api->executeTranslationItem("listwarps-cmd"), $api->executeTranslationItem("listwarps-desc"), $api->executeTranslationItem("listwarps-usage"));
         $this->api = $api;
     }
 
@@ -42,7 +42,6 @@ class ListWarpsCommand extends Command implements PluginIdentifiableCommand{
                 }
             }
             if($sender instanceof Player && $sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND_VISUAL) && isset($args[0]) && $args[0] === "v"){
-                $sender->sendMessage("Visual display soon.");
                 foreach($iterator as $warp){
                     if($warp->getDestination()->isInternal() && $warp->getDestination()->getPosition()->getLevel() === $sender->getLevel()){
                         $particle = new FloatingTextParticle($warp->getDestination()->getPosition(), "(X: {$warp->getDestination()->getPosition()->getFloorX()}}, Y: {$warp->getDestination()->getPosition()->getFloorY()}, Z: {$warp->getDestination()->getPosition()->getFloorZ()}, LEVEL: {$warp->getDestination()->getPosition()->getLevel()->getName()})", "WARP: " . TextFormat::AQUA . $warp->getName() . TextFormat::RESET);

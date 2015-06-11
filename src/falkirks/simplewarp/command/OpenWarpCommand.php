@@ -14,7 +14,7 @@ use pocketmine\utils\TextFormat;
 class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
     private $api;
     public function __construct(SimpleWarpAPI $api){
-        parent::__construct("openwarp", "Open existing warps.", "/openwarp <name>");
+        parent::__construct($api->executeTranslationItem("openwarp-cmd"), $api->executeTranslationItem("openwarp-desc"), $api->executeTranslationItem("openwarp-usage"));
         $this->api = $api;
     }
 
@@ -33,11 +33,11 @@ class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
                     $warp = $this->api->getWarpManager()[$args[0]];
                     $warp->setPublic(true);
                     $this->api->getWarpManager()[$args[0]] = $warp;
-                    $sender->sendMessage("You have opened a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET);
-                    $sender->sendMessage("  Any player will be able to use this warp.");
+                    $sender->sendMessage($this->api->executeTranslationItem("closed-warp-1", $args[0]));
+                    $sender->sendMessage($this->api->executeTranslationItem("closed-warp-2"));
                 }
                 else{
-                    $sender->sendMessage(TextFormat::RED . "That warp doesn't exist." . TextFormat::RESET);
+                    $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));
                 }
             }
             else{
@@ -46,7 +46,7 @@ class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
             }
         }
         else{
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+            $sender->sendMessage($this->api->executeTranslationItem("openwarp-noperm"));
         }
     }
 

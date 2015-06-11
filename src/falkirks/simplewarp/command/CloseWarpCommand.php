@@ -14,7 +14,7 @@ use pocketmine\utils\TextFormat;
 class CloseWarpCommand extends Command implements PluginIdentifiableCommand{
     private $api;
     public function __construct(SimpleWarpAPI $api){
-        parent::__construct("closewarp", "Close existing warps.", "/closewarp <name>");
+        parent::__construct($api->executeTranslationItem("closewarp-cmd"), $api->executeTranslationItem("closewarp-desc"), $api->executeTranslationItem("closewarp-usage"));
         $this->api = $api;
     }
 
@@ -33,11 +33,12 @@ class CloseWarpCommand extends Command implements PluginIdentifiableCommand{
                     $warp = $this->api->getWarpManager()[$args[0]];
                     $warp->setPublic(false);
                     $this->api->getWarpManager()[$args[0]] = $warp;
-                    $sender->sendMessage("You have closed a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET);
-                    $sender->sendMessage("  Only players with the permission " . TextFormat::AQUA . SimpleWarpPermissions::BASE_WARP_PERMISSION . "." . $warp->getName() . TextFormat::RESET . " will be able to use this warp.");
+                    $sender->sendMessage($this->api->executeTranslationItem("closed-warp-1", $args[0]));
+                    $sender->sendMessage($this->api->executeTranslationItem("closed-warp-2", SimpleWarpPermissions::BASE_WARP_PERMISSION . "." . $warp->getName()));
+
                 }
                 else{
-                    $sender->sendMessage(TextFormat::RED . "That warp doesn't exist." . TextFormat::RESET);
+                    $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist"));
                 }
             }
             else{
@@ -46,7 +47,7 @@ class CloseWarpCommand extends Command implements PluginIdentifiableCommand{
             }
         }
         else{
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+            $sender->sendMessage($this->api->executeTranslationItem("closewarp-noperm"));
         }
     }
 

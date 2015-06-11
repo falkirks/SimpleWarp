@@ -13,7 +13,7 @@ use pocketmine\utils\TextFormat;
 class DelWarpCommand extends Command implements PluginIdentifiableCommand{
     private $api;
     public function __construct(SimpleWarpAPI $api){
-        parent::__construct("delwarp", "Delete existing warps.", "/delwarp <name>");
+        parent::__construct($api->executeTranslationItem("delwarp-cmd"), $api->executeTranslationItem("delwarp-desc"), $api->executeTranslationItem("delwarp-usage"));
         $this->api = $api;
     }
 
@@ -29,10 +29,10 @@ class DelWarpCommand extends Command implements PluginIdentifiableCommand{
             if(isset($args[0])){
                 if(isset($this->api->getWarpManager()[$args[0]])) {
                     unset($this->api->getWarpManager()[$args[0]]);
-                    $sender->sendMessage("You have deleted a warp called " . TextFormat::AQUA . $args[0] . TextFormat::RESET);
+                    $sender->sendMessage($this->api->executeTranslationItem("warp-deleted", $args[0]));
                 }
                 else{
-                    $sender->sendMessage(TextFormat::RED . "That warp doesn't exist." . TextFormat::RESET);
+                    $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));
                 }
             }
             else{
@@ -41,7 +41,7 @@ class DelWarpCommand extends Command implements PluginIdentifiableCommand{
             }
         }
         else{
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+            $sender->sendMessage($this->api->executeTranslationItem("delwarp-noperm"));
         }
     }
 

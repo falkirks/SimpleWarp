@@ -14,11 +14,8 @@ class Version {
 
     public static function sendVersionMessage(CommandSender $sender){
         if(self::ENABLE_VERBOSE) {
-            $sender->sendMessage("Hey, " . $sender->getName());
-            $sender->sendMessage("SimpleWarp is a");
+            //$sender->sendMessage(Version::$quotes[array_rand(Version::$quotes)]);
         }
-        else{
-            $sender->sendMessage("SimpleWarp " . self::VERSION_STRING);
-        }
+        //$sender->sendMessage("SimpleWarp " . self::VERSION_STRING);
     }
 }

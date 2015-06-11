@@ -26,6 +26,9 @@ class SimpleWarpAPI {
     public function getConfigItem($name){
         return $this->plugin->getConfig()->get($name);
     }
+    public function executeTranslationItem($name, ...$args){
+        return $this->plugin->getTranslationManager()->execute($name, ...$args);
+    }
     public function getTranslationItem($name){
         return $this->plugin->getTranslationManager()->get($name);
     }

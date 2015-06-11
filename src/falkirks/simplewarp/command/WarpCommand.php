@@ -21,7 +21,7 @@ use pocketmine\utils\TextFormat;
 class WarpCommand extends Command implements PluginIdentifiableCommand{
     private $api;
     public function __construct(SimpleWarpAPI $api){
-        parent::__construct("warp", "Warp around your world.", "/warp <name> [player]");
+        parent::__construct($api->executeTranslationItem("warp-cmd"), $api->executeTranslationItem("warp-desc"), $api->executeTranslationItem("warp-usage"));
         $this->api = $api;
     }
 
@@ -43,20 +43,20 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
                                 $warp = $this->api->getWarpManager()[$args[0]];
                                 if ($warp->canUse($sender)) {
                                     $this->displaySmoke($player);
-                                    $player->sendPopup("Warping...");
+                                    $player->sendPopup($this->api->executeTranslationItem("warping-popup", $args[0]));
                                     $warp->teleport($player);
-                                    $sender->sendMessage($player->getName() . " has been warped to " . TextFormat::AQUA . $args[0] . TextFormat::RESET . ".");
+                                    $sender->sendMessage($this->api->executeTranslationItem("other-player-warped", $player->getName(), $args[0]));
                                 }
                                 else{
-                                    $sender->sendMessage(TextFormat::RED . "You don't have permission to use this warp." . TextFormat::RESET);
+                                    $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
                                 }
                             }
                             else {
-                                $sender->sendMessage("That player doesn't exist.");
+                                $sender->sendMessage($this->api->executeTranslationItem("player-not-loaded"));
                             }
                         }
                         else{
-                            $sender->sendMessage(TextFormat::RED . "You don't have permission to warp other players." . TextFormat::RESET);
+                            $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp-other"));
                         }
                     }
                     elseif ($sender instanceof Player) {
@@ -64,12 +64,12 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
                         $warp = $this->api->getWarpManager()[$args[0]];
                         if($warp->canUse($sender)){
                             $this->displaySmoke($sender);
-                            $sender->sendPopup("Warping...");
+                            $sender->sendPopup($this->api->executeTranslationItem("warping-popup", $args[0]));
                             $warp->teleport($sender);
-                            $sender->sendMessage("You have been warped");
+                            $sender->sendMessage($this->api->executeTranslationItem("warp-done"));
                         }
                         else{
-                            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this warp." . TextFormat::RESET);
+                            $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
                         }
                     }
                     else {
@@ -78,7 +78,7 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
                     }
                 }
                 else{
-                    $sender->sendMessage(TextFormat::RED . "That warp doesn't exist." . TextFormat::RESET);
+                    $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist"));
                 }
             }
             else{
@@ -87,7 +87,7 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
             }
         }
         else{
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+            $sender->sendMessage($this->api->executeTranslationItem("warp-noperm"));
         }
     }
     public function displaySmoke(Position $pos){
