@@ -11,6 +11,24 @@ display-exact-coordinates: false
   # If set to false the coordinates shown to the end user
   # will be rounded, players will still be teleported to the
   # exact location.
-storage-mode: 2
-  # Do NOT change this value unless you know what you are doing.
-  # The plugin hasn't been throughly tested in other modes.
+storage-mode: 0
+  # SimpleWarp can handle the storage of warps in three main ways.
+  #
+  # MEMORY_TILL_CLOSE = 0
+  # Warps are loaded into memory when the server starts and are
+  # held there until the server closes. When the server closes
+  # they are converted back into YAML. This new YAML will
+  # replace warps.yml, this means that changes are lost and
+  # warps which fail to load are discarded.
+  #
+  #
+  # FLUSH_ON_CHANGE = 1
+  # Warps are loaded into memory when the server starts. Whenever a
+  # warp is updated, it will be updated in the warps.yml. When the
+  # server closes, the warps file is NOT overwritten.
+  #
+  # NO_MEMORY_STORE = 2
+  # Warps are never "stored" in memory. They are converted on demand
+  # between YAML and object format. Any changeds made to the config
+  # will be available right away in the server and vice versa.
+  #
