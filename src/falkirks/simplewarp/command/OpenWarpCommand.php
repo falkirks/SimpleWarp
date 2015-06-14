@@ -33,8 +33,8 @@ class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
                     $warp = $this->api->getWarpManager()[$args[0]];
                     $warp->setPublic(true);
                     $this->api->getWarpManager()[$args[0]] = $warp;
-                    $sender->sendMessage($this->api->executeTranslationItem("closed-warp-1", $args[0]));
-                    $sender->sendMessage($this->api->executeTranslationItem("closed-warp-2"));
+                    $sender->sendMessage($this->api->executeTranslationItem("opened-warp-1", $args[0]));
+                    $sender->sendMessage($this->api->executeTranslationItem("opened-warp-2"));
                 }
                 else{
                     $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));

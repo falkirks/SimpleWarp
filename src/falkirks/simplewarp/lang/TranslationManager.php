@@ -30,10 +30,10 @@ class TranslationManager {
         return $this->store->get($name);
     }
     public function execute($name, ...$args){
-        if($args === null){
-            $args = [];
+        if($args === null || count($args) === 0){
+            return $this->get($name);
         }
-        if(count($args) > 0 && is_array($args[0])){
+        if(is_array($args[0])){
             $args = $args[0];
         }
         return  sprintf($this->get($name), ...$args);

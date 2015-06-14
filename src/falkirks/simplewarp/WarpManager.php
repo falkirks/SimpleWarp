@@ -163,15 +163,19 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
      * @throws \Exception
      */
     protected function warpFromData($name, array $array){
-        if(isset($array["level"])){ // This is an internal warp
+        if(isset($array["level"]) && isset($array["x"]) && isset($array["y"]) && isset($array["z"]) && isset($array["public"])){ // This is an internal warp
             $level = $this->api->getSimpleWarp()->getServer()->getLevelByName($array["level"]);
             if($level instanceof Level) {
                 return new Warp($name, new Destination(new Position($array["x"], $array["y"], $array["z"], $level)), $array["public"]);
             }
             $this->api->getSimpleWarp()->getLogger()->critical("A warp with the name " . TextFormat::AQUA . $name . TextFormat::RESET . " is attached to a level which isn't loaded. It will be removed automatically when your server stops.");
         }
-        return new Warp($name, new Destination($array["address"], $array["port"]), $array["public"]);
+        elseif(isset($array["address"]) && isset($array["port"]) && isset($array["public"])) {
+            return new Warp($name, new Destination($array["address"], $array["port"]), $array["public"]);
+        }
 
+        $this->api->getSimpleWarp()->getLogger()->critical("A warp with the name " . TextFormat::AQUA . $name . TextFormat::RESET . " is incomplete. It will be removed automatically when your server stops.");
+        return null;
     }
 
     /**
