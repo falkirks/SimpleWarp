@@ -4,6 +4,7 @@ namespace falkirks\simplewarp;
 
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
+use falkirks\simplewarp\utils\WeakPosition;
 use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -46,8 +47,16 @@ class Destination{
         }
 
         if($this->position instanceof Position){
-            //Server::getInstance()->getLogger()->info($this->position->x . " : " . $this->position->y . " : " . $this->position->z);
-            $player->teleport($this->position);
+            if($this->position->isValid()) {
+                if($this->position instanceof WeakPosition){
+                    $this->position->updateProperties();
+                }
+                //Server::getInstance()->getLogger()->info($this->position->x . " : " . $this->position->y . " : " . $this->position->z);
+                $player->teleport($this->position);
+            }
+            else{
+                $player->sendMessage($this->getApi()->executeTranslationItem("level-not-loaded-warp"));
+            }
         }
         else{
             $plugin = $player->getServer()->getPluginManager()->getPlugin("FastTransfer");

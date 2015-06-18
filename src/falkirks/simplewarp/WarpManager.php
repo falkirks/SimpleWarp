@@ -6,6 +6,7 @@ use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\store\DataStore;
 use falkirks\simplewarp\store\Reloadable;
 use falkirks\simplewarp\store\Saveable;
+use falkirks\simplewarp\utils\WeakPosition;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\network\protocol\DataPacket;
@@ -164,11 +165,7 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
      */
     protected function warpFromData($name, array $array){
         if(isset($array["level"]) && isset($array["x"]) && isset($array["y"]) && isset($array["z"]) && isset($array["public"])){ // This is an internal warp
-            $level = $this->api->getSimpleWarp()->getServer()->getLevelByName($array["level"]);
-            if($level instanceof Level) {
-                return new Warp($name, new Destination(new Position($array["x"], $array["y"], $array["z"], $level)), $array["public"]);
-            }
-            $this->api->getSimpleWarp()->getLogger()->critical("A warp with the name " . TextFormat::AQUA . $name . TextFormat::RESET . " is attached to a level which isn't loaded. It will be removed automatically when your server stops.");
+            return new Warp($name, new Destination(new WeakPosition($array["x"], $array["y"], $array["z"], $array["level"])), $array["public"]);
         }
         elseif(isset($array["address"]) && isset($array["port"]) && isset($array["public"])) {
             return new Warp($name, new Destination($array["address"], $array["port"]), $array["public"]);
@@ -188,11 +185,12 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
     protected function warpToData(Warp $warp){
         if($warp->getDestination()->isInternal()) {
             //TODO implement yaw and pitch
+            $pos = $warp->getDestination()->getPosition();
             return [
-                "x" => $warp->getDestination()->getPosition()->getX(),
-                "y" => $warp->getDestination()->getPosition()->getY(),
-                "z" => $warp->getDestination()->getPosition()->getZ(),
-                "level" => $warp->getDestination()->getPosition()->getLevel()->getName(),
+                "x" => $pos->getX(),
+                "y" => $pos->getY(),
+                "z" => $pos->getZ(),
+                "level" => ($pos instanceof WeakPosition ? $pos->getLevelName() : $pos->getLevel()->getName()),
                 "public" => $warp->isPublic()
             ];
         }

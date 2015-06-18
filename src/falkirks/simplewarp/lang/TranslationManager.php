@@ -97,6 +97,8 @@ class TranslationManager {
         $this->registerDefault("warp-done", "You have been warped");
         $this->registerDefault("warp-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
+        $this->registerDefault("level-not-loaded-warp", "The warp you are using is attached to a level which isn't loaded");
+
     }
     protected function registerDefault($name, $text){
         if(!$this->store->exists($name)){

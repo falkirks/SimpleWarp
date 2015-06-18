@@ -11,6 +11,7 @@ use falkirks\simplewarp\command\OpenWarpCommand;
 use falkirks\simplewarp\command\WarpCommand;
 use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\store\YAMLStore;
+use falkirks\simplewarp\utils\WeakPosition;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
@@ -36,6 +37,9 @@ class SimpleWarp extends PluginBase{
             new OpenWarpCommand($this->api),
             new CloseWarpCommand($this->api)
         ]);
+        $pos = new WeakPosition(0, 0, 0, "world");
+        $pos->level;
+
     }
     public function onDisable(){
         $this->warpManager->saveAll();
