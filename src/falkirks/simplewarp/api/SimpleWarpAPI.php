@@ -32,6 +32,11 @@ class SimpleWarpAPI {
     public function getTranslationItem($name){
         return $this->plugin->getTranslationManager()->get($name);
     }
+
+    /**
+     * @param $name
+     * @return Warp
+     */
     public function getWarp($name){
         return $this->getWarpManager()[$name];
     }
@@ -62,7 +67,7 @@ class SimpleWarpAPI {
     /**
      * This will hopefully save someone typing.
      * @param PluginBase $base
-     * @return mixed
+     * @return SimpleWarpAPI
      */
     public static function getInstance(PluginBase $base){
         return $base->getServer()->getPluginManager()->getPlugin("SimpleWarp")->getApi();
