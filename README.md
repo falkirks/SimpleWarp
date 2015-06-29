@@ -4,9 +4,6 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
  
 **SimpleWarp 2.0 is not compatible with older SimpleWarp and PocketMine versions.**
 
-## 2.0 betas
-2.0 is still under development and although most features are implemented, it needs to be thoroughly tested before being posted. You can get the latest beta at https://github.com/Falkirks/SimpleWarp/releases 
-
 ## Commands
 | Command | Usage | Description | 
 | ------- | ----- | ----------- |
@@ -14,6 +11,8 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
 | `/addwarp` | `/addwarp <name> [<ip> <port>|<x> <y> <z> <level>|<player>]` | Creates a new warp at a set location. |
 | `/delwarp` | `/delwarp <name>` | Deletes specified warp. |
 | `/listwarps` | `/listwarps` | Prints out list of warps. |
+| `/openwarp` | `/openwarp <name>` | Allows any player to access specified warp. |
+| `/closewarp` | `/closewarp <name>` | Restricts specfied so that only players with correct permission node can use it |
 
 ## Permissions
 ```yaml
