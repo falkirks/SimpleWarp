@@ -99,7 +99,7 @@ class Destination{
                 return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$this->getPosition()->getLevel()->getName()}) ";
             }
             else{
-                return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: {$this->getPosition()->getLevel()->getName()}) ";
+                return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $this->getPosition() instanceof WeakPosition ? $this->getPosition()->levelName : $this->position->getLevel()->getName() . ")";
             }
         }
         return "(IP: {$this->getAddress()}, PORT: {$this->getPort()})";
