@@ -5,6 +5,7 @@ namespace falkirks\simplewarp\command;
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
+use falkirks\simplewarp\utils\WeakPosition;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
 use pocketmine\command\Command;
@@ -36,7 +37,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                     if (isset($args[4])) {
                         $level = $this->api->getSimpleWarp()->getServer()->getLevelByName($args[4]);
                         if ($level instanceof Level) {
-                            $dest = new Destination(new Position($args[1], $args[2], $args[3], $level));
+                            $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $args[4]));
                             $warp = new Warp($args[0], $dest);
                             $this->api->getWarpManager()[$args[0]] = $warp;
                             $sender->sendMessage($this->api->executeTranslationItem("warp-added-xyz", $args[0], $dest->toString()));

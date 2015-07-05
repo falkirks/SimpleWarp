@@ -95,11 +95,17 @@ class Destination{
     }
     public function toString(){
         if($this->isInternal()) {
-            if($this->getApi()->getConfigItem("display-exact-coordinates")) {
-                return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$this->getPosition()->getLevel()->getName()}) ";
+            if($this->position instanceof WeakPosition){
+                $levelName = $this->position->levelName;
             }
             else{
-                return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $this->getPosition() instanceof WeakPosition ? $this->getPosition()->levelName : $this->position->getLevel()->getName() . ")";
+                $levelName = $this->position->getLevel()->getName();
+            }
+            if($this->getApi()->getConfigItem("display-exact-coordinates")) {
+                return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$levelName}) ";
+            }
+            else{
+                return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $levelName . ")";
             }
         }
         return "(IP: {$this->getAddress()}, PORT: {$this->getPort()})";
