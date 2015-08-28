@@ -42,22 +42,29 @@ class TranslationManager {
         $this->registerDefault("addwarp-cmd", "addwarp");
         $this->registerDefault("addwarp-desc", "Add new warps.");
         $this->registerDefault("addwarp-usage", "/addwarp <name> [<ip> <port>|<x> <y> <z> <level>|<player>]");
+        $this->registerDefault("addwarp-event-cancelled", "A plugin has cancelled the creation of this warp.");
 
         $this->registerDefault("closewarp-cmd", "closewarp");
         $this->registerDefault("closewarp-desc", "Close existing warps.");
         $this->registerDefault("closewarp-usage", "/closewarp <name>");
+        $this->registerDefault("closewarp-event-cancelled", "A plugin has cancelled this action.");
 
         $this->registerDefault("delwarp-cmd", "delwarp");
         $this->registerDefault("delwarp-desc", "Delete existing warps.");
         $this->registerDefault("delwarp-usage", "/delwarp <name>");
+        $this->registerDefault("delewarp-event-cancelled", "A plugin has cancelled the deletion of this warp.");
 
         $this->registerDefault("listwarps-cmd", "listwarps");
         $this->registerDefault("listwarps-desc", "List all your warps.");
         $this->registerDefault("listwarps-usage", "/listwarps");
+        $this->registerDefault("listwarps-list-title", "Warp list:\n");
+        $this->registerDefault("listwarps-no-warps",  TextFormat::RED . "No warps found." . TextFormat::RESET);
+        $this->registerDefault("listwarps-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
         $this->registerDefault("openwarp-cmd", "openwarp");
         $this->registerDefault("openwarp-desc", "Open existing warps.");
         $this->registerDefault("openwarp-usage", "/openwarp <name>");
+        $this->registerDefault("delewarp-event-cancelled", "A plugin has cancelled this action.");
 
         $this->registerDefault("warp-cmd", "warp");
         $this->registerDefault("warp-desc", "Warp around your world.");

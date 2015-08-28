@@ -28,7 +28,7 @@ class ListWarpsCommand extends Command implements PluginIdentifiableCommand{
      */
     public function execute(CommandSender $sender, $commandLabel, array $args){
         if($sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND)){
-            $ret = "Warp list:\n";
+            $ret = $this->api->executeTranslationItem("listwarps-list-title");
             /** @var Warp[] $iterator */
             $iterator = $this->api->getWarpManager()->getIterator();
             foreach($iterator as $w){
@@ -41,6 +41,9 @@ class ListWarpsCommand extends Command implements PluginIdentifiableCommand{
                     $ret .= "\n";
                 }
             }
+            /**
+             * EASTER EGG!
+             */
             if($sender instanceof Player && $sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND_VISUAL) && isset($args[0]) && $args[0] === "v"){
                 foreach($iterator as $warp){
                     if($warp->getDestination()->isInternal() && $warp->getDestination()->getPosition()->getLevel() === $sender->getLevel()){
@@ -49,10 +52,10 @@ class ListWarpsCommand extends Command implements PluginIdentifiableCommand{
                     }
                 }
             }
-            $sender->sendMessage(($ret !== "Warp list:\n" ? $ret : TextFormat::RED . "No warps found." . TextFormat::RESET));
+            $sender->sendMessage(($ret !== $this->api->executeTranslationItem("listwarps-list-title") ? $ret : $this->api->executeTranslationItem("listwarps-no-warps")));
         }
         else{
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+            $sender->sendMessage($this->api->executeTranslationItem("listwarps-noperm"));
         }
     }
 
