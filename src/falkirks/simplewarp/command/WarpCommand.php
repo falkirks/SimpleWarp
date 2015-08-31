@@ -19,7 +19,7 @@ use pocketmine\utils\Random;
 use pocketmine\utils\TextFormat;
 
 class WarpCommand extends Command implements PluginIdentifiableCommand{
-    private $api;
+    protected $api;
     public function __construct(SimpleWarpAPI $api){
         parent::__construct($api->executeTranslationItem("warp-cmd"), $api->executeTranslationItem("warp-desc"), $api->executeTranslationItem("warp-usage"));
         $this->api = $api;

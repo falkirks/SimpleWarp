@@ -11,7 +11,7 @@ use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\utils\TextFormat;
 
 class DelWarpCommand extends Command implements PluginIdentifiableCommand{
-    private $api;
+    protected $api;
     public function __construct(SimpleWarpAPI $api){
         parent::__construct($api->executeTranslationItem("delwarp-cmd"), $api->executeTranslationItem("delwarp-desc"), $api->executeTranslationItem("delwarp-usage"));
         $this->api = $api;

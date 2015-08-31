@@ -35,6 +35,9 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
         if($sender->hasPermission(SimpleWarpPermissions::ADD_WARP_COMMAND)){
             if(isset($args[0])) {
                 if(!isset($this->api->getWarpManager()[$args[0]])) {
+                    if(substr($args[0], 0, 4) === "ess:" && $this->api->getConfigItem("essentials-support") && $sender->hasPermission("simplewarp.essentials.notice")){
+                        $sender->sendMessage($this->api->executeTranslationItem("addwarp-ess-prefix-warning"));
+                    }
                     if (isset($args[4])) {
                         $level = $this->api->getSimpleWarp()->getServer()->getLevelByName($args[4]);
                         if ($level instanceof Level) {

@@ -29,6 +29,10 @@ storage-mode: 0
   #
   # NO_MEMORY_STORE = 2
   # Warps are never "stored" in memory. They are converted on demand
-  # between YAML and object format. Any changeds made to the config
+  # between YAML and object format. Any changes made to the config
   # will be available right away in the server and vice versa.
   #
+essentials-support: true
+  # If essentials-support is enabled and EssentialsPE is installed,
+  # SimpleWarp will take steps to ensure compatibility between the
+  # two plugins.
