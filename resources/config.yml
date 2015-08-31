@@ -32,7 +32,7 @@ storage-mode: 0
   # between YAML and object format. Any changes made to the config
   # will be available right away in the server and vice versa.
   #
-essentials-support: true
+essentials-support: false
   # If essentials-support is enabled and EssentialsPE is installed,
   # SimpleWarp will take steps to ensure compatibility between the
   # two plugins.
