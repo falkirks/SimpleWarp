@@ -3,6 +3,7 @@ namespace falkirks\simplewarp\command;
 
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
+use falkirks\simplewarp\event\WarpOpenEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
@@ -31,10 +32,17 @@ class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
                 if(isset($this->api->getWarpManager()[$args[0]])) {
                     /** @var Warp $warp */
                     $warp = $this->api->getWarpManager()[$args[0]];
-                    $warp->setPublic(true);
-                    $this->api->getWarpManager()[$args[0]] = $warp;
-                    $sender->sendMessage($this->api->executeTranslationItem("opened-warp-1", $args[0]));
-                    $sender->sendMessage($this->api->executeTranslationItem("opened-warp-2"));
+                    $ev = new WarpOpenEvent($sender, $warp);
+                    $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                    if(!$ev->isCancelled()){
+                        $warp->setPublic(true);
+                        $this->api->getWarpManager()[$args[0]] = $warp;
+                        $sender->sendMessage($this->api->executeTranslationItem("opened-warp-1", $args[0]));
+                        $sender->sendMessage($this->api->executeTranslationItem("opened-warp-2"));
+                    }
+                    else{
+                        $sender->sendMessage($this->api->executeTranslationItem("openwarp-event-cancelled"));
+                    }
                 }
                 else{
                     $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));

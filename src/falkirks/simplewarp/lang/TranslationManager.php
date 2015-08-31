@@ -64,7 +64,7 @@ class TranslationManager {
         $this->registerDefault("openwarp-cmd", "openwarp");
         $this->registerDefault("openwarp-desc", "Open existing warps.");
         $this->registerDefault("openwarp-usage", "/openwarp <name>");
-        $this->registerDefault("delewarp-event-cancelled", "A plugin has cancelled this action.");
+        $this->registerDefault("delwarp-event-cancelled", "A plugin has cancelled this action.");
 
         $this->registerDefault("warp-cmd", "warp");
         $this->registerDefault("warp-desc", "Warp around your world.");

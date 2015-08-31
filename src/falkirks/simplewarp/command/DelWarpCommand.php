@@ -3,6 +3,7 @@ namespace falkirks\simplewarp\command;
 
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
+use falkirks\simplewarp\event\WarpDeleteEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
 use falkirks\simplewarp\Version;
 use pocketmine\command\Command;
@@ -28,8 +29,15 @@ class DelWarpCommand extends Command implements PluginIdentifiableCommand{
         if($sender->hasPermission(SimpleWarpPermissions::DEL_WARP_COMMAND)){
             if(isset($args[0])){
                 if(isset($this->api->getWarpManager()[$args[0]])) {
-                    unset($this->api->getWarpManager()[$args[0]]);
-                    $sender->sendMessage($this->api->executeTranslationItem("warp-deleted", $args[0]));
+                    $ev = new WarpDeleteEvent($sender, $this->api->getWarpManager()[$args[0]]);
+                    $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                    if(!$ev->isCancelled()){
+                        unset($this->api->getWarpManager()[$args[0]]);
+                        $sender->sendMessage($this->api->executeTranslationItem("warp-deleted", $args[0]));
+                    }
+                    else{
+                        $sender->sendMessage($this->api->executeTranslationItem("delwarp-event-cancelled"));
+                    }
                 }
                 else{
                     $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));

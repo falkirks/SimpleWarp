@@ -6,7 +6,7 @@ use falkirks\simplewarp\Warp;
 use pocketmine\command\CommandSender;
 use pocketmine\event\Cancellable;
 
-class WarpAddEvent extends WarpEvent implements  Cancellable{
+class WarpCloseEvent extends WarpEvent implements  Cancellable{
     public static $handlerList = null;
     /** @var CommandSender  */
     private $sender;
@@ -14,8 +14,6 @@ class WarpAddEvent extends WarpEvent implements  Cancellable{
         parent::__construct($warp);
         $this->sender = $sender;
     }
-
-
     /**
      * @return CommandSender
      */
