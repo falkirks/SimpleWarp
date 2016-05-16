@@ -18,14 +18,14 @@ class EssentialsWarpCommand extends WarpCommand{
 
     public function execute(CommandSender $sender, $commandLabel, array $args){
         if(isset($args[0])) {
-            $ess = $this->getPlugin()->getServer()->getPluginManager()->getPlugin("EssentialsPE");
+            $ess = $this->getEssAPI();
             if (isset($this->api->getWarpManager()[$args[0]])) {
                 parent::execute($sender, $commandLabel, $args);
-                if($ess instanceof Loader && $ess->warpExists($args[0]) && $sender->hasPermission("simplewarp.essentials.notice")){
+                if($ess->warpExists($args[0]) && $sender->hasPermission("simplewarp.essentials.notice")){
                     $sender->sendMessage($this->api->executeTranslationItem("ess-warp-conflict", $args[0]));
                 }
             }
-            elseif($ess instanceof Loader && ($name = $this->getEssWarpName($ess, $args[0])) !== null){
+            elseif(($name = $this->getEssWarpName($ess, $args[0])) !== null){
                 $args[0] = $name;
                 $this->getEssCommand()->execute($sender, $commandLabel, $args);
             }
@@ -38,7 +38,7 @@ class EssentialsWarpCommand extends WarpCommand{
             Version::sendVersionMessage($sender);
         }
     }
-    private function getEssWarpName(Loader $loader, $string){
+    private function getEssWarpName($loader, $string){
         if($loader->warpExists($string)){
             return $string;
         }
@@ -46,6 +46,13 @@ class EssentialsWarpCommand extends WarpCommand{
             return substr($string, 4);
         }
         return null;
+    }
+    private function getEssAPI(){
+        $ess = $this->getPlugin()->getServer()->getPluginManager()->getPlugin("EssentialsPE");
+        if(method_exists($ess, "getAPI")){
+            return $ess->getAPI();
+        }
+        return $ess;
     }
     /**
      * @return Command
