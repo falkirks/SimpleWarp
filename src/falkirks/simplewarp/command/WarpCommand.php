@@ -4,6 +4,7 @@ namespace falkirks\simplewarp\command;
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
+use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
 use pocketmine\command\Command;
@@ -108,7 +109,7 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(){
+    public function getPlugin(): SimpleWarp{
         return $this->api->getSimpleWarp();
     }
 }

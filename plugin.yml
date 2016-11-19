@@ -3,7 +3,7 @@ name: SimpleWarp
 main: falkirks\simplewarp\SimpleWarp
 version: 2.1.1
 author: Falkirks
-api: [1.12.0,2.0.0]
+api: [2.0.0]
 load: POSTWORLD
 softdepend: ["FastTransfer", "SlowTransfer", "EssentialsPE"]
 permissions:

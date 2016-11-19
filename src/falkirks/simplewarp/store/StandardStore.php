@@ -14,7 +14,7 @@ abstract class StandardStore implements DataStore{
             $this->remove($warp);
         }
     }
-    public function exists($name){
+    public function exists($name): bool{
         return $this->get($name) !== null;
     }
 

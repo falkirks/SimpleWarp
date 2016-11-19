@@ -19,7 +19,7 @@ class WarpAddEvent extends WarpEvent implements  Cancellable{
     /**
      * @return CommandSender
      */
-    public function getSender(){
+    public function getSender(): CommandSender{
         return $this->sender;
     }
 

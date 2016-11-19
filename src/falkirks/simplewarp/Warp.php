@@ -32,7 +32,7 @@ class Warp{
         }
         $ev->getDestination()->teleport($player);
     }
-    public function canUse(CommandSender $player){
+    public function canUse(CommandSender $player): bool{
         return ($this->isPublic || $player->hasPermission(SimpleWarpPermissions::BASE_WARP_PERMISSION) || $player->hasPermission(SimpleWarpPermissions::BASE_WARP_PERMISSION . "." . $this->name));
     }
 
@@ -53,17 +53,17 @@ class Warp{
     /**
      * @return Destination
      */
-    public function getDestination(){
+    public function getDestination(): Destination{
         return $this->destination;
     }
 
     /**
      * @return boolean
      */
-    public function isPublic(){
+    public function isPublic(): bool {
         return $this->isPublic;
     }
-    private function getServer(){
+    private function getServer(): Server{
         return Server::getInstance();
     }
 

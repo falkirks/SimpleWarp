@@ -69,14 +69,14 @@ class Destination{
             }
         }
     }
-    public function isInternal(){
+    public function isInternal(): bool{
         return $this->position instanceof Position;
     }
 
     /**
      * @return Position
      */
-    public function getPosition(){
+    public function getPosition(): Position{
         return $this->position;
     }
 
@@ -114,7 +114,7 @@ class Destination{
     /**
      * @return SimpleWarpApi
      */
-    protected function getApi(){
+    protected function getApi(): SimpleWarpAPI{
         return Server::getInstance()->getPluginManager()->getPlugin("SimpleWarp")->getApi();
     }
 

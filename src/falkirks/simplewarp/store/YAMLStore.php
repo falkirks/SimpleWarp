@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: noahheyl
- * Date: 2015-06-04
- * Time: 8:18 PM
- */
-
 namespace falkirks\simplewarp\store;
 
 

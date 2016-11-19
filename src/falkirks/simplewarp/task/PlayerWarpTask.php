@@ -36,14 +36,14 @@ class PlayerWarpTask extends PluginTask{
     /**
      * @return Warp
      */
-    public function getWarp(){
+    public function getWarp(): Warp{
         return $this->warp;
     }
 
     /**
      * @return Player
      */
-    public function getPlayer(){
+    public function getPlayer(): Player{
         return $this->player;
     }
 

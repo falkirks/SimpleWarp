@@ -15,7 +15,7 @@ class WarpEvent extends Event{
     /**
      * @return Warp
      */
-    public function getWarp(){
+    public function getWarp(): Warp{
         return $this->warp;
     }
 }

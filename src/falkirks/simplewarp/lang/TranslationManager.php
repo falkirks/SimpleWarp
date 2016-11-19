@@ -29,7 +29,7 @@ class TranslationManager {
     public function get($name){
         return $this->store->get($name);
     }
-    public function execute($name, ...$args){
+    public function execute($name, ...$args): string{
         if($args === null || count($args) === 0){
             return $this->get($name);
         }

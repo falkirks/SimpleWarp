@@ -18,24 +18,19 @@ class WeakPosition extends Position{
     public $levelName;
 
     public function __construct($x = 0, $y = 0, $z = 0, $levelName){
-        $this->x = $x;
-        $this->y = $y;
-        $this->z = $z;
+        parent::__construct($x, $y, $z, null);
         $this->levelName = $levelName;
     }
-    public function isValid(){
+    public function isValid(): bool {
         return Server::getInstance()->getLevelByName($this->levelName) instanceof Level;
     }
     public function updateProperties(){
         $this->level = $this->getLevel();
     }
-    public function getLevel(){
+    public function getLevel(): Level{
         return Server::getInstance()->getLevelByName($this->levelName);
     }
 
-    /**
-     * @return Level
-     */
     public function getLevelName(){
         return $this->levelName;
     }

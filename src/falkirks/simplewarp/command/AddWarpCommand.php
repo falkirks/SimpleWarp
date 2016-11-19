@@ -6,6 +6,7 @@ use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\event\WarpAddEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
+use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\utils\WeakPosition;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
@@ -38,10 +39,10 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                     if(substr($args[0], 0, 4) === "ess:" && $this->api->getConfigItem("essentials-support") && $sender->hasPermission("simplewarp.essentials.notice")){
                         $sender->sendMessage($this->api->executeTranslationItem("addwarp-ess-prefix-warning"));
                     }
-                    if (isset($args[4])) {
-                        $level = $this->api->getSimpleWarp()->getServer()->getLevelByName($args[4]);
+                    if (isset($args[3])) {
+                        $level = (isset($args[4]) ? $this->api->getSimpleWarp()->getServer()->getLevelByName($args[4]) : $this->api->getSimpleWarp()->getServer()->getDefaultLevel());
                         if ($level instanceof Level) {
-                            $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $args[4]));
+                            $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $level->getName()));
                             $warp = new Warp($args[0], $dest);
                             $ev = new WarpAddEvent($sender, $warp);
                             $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
@@ -128,7 +129,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(){
+    public function getPlugin(): SimpleWarp{
         return $this->api->getSimpleWarp();
     }
 }

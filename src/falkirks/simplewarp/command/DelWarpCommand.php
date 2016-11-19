@@ -5,6 +5,7 @@ namespace falkirks\simplewarp\command;
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\event\WarpDeleteEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
+use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Version;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -57,7 +58,7 @@ class DelWarpCommand extends Command implements PluginIdentifiableCommand{
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(){
+    public function getPlugin(): SimpleWarp{
         return $this->api->getSimpleWarp();
     }
 }

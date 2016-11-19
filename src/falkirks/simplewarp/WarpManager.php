@@ -50,7 +50,7 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
             $this->store->save();
         }
     }
-    protected function loadWarps(){
+    protected function loadWarps(): array{
         $out = [];
         foreach($this->store->getIterator() as $name => $data){
             $out[$name] = $this->warpFromData($name, $data);

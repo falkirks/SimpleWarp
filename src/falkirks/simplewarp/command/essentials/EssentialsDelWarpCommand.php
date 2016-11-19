@@ -5,6 +5,7 @@ namespace falkirks\simplewarp\command\essentials;
 use EssentialsPE\Loader;
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\command\DelWarpCommand;
+use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Version;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -59,7 +60,7 @@ class EssentialsDelWarpCommand extends DelWarpCommand{
     /**
      * @return Command
      */
-    public function getEssCommand(){
+    public function getEssCommand(): SimpleWarp{
         return $this->essCommand;
     }
 }

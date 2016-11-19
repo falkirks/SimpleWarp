@@ -22,10 +22,10 @@ class PlayerWarpEvent extends PlayerEvent implements Cancellable{
     /**
      * @return Warp
      */
-    public function getWarp(){
+    public function getWarp(): Warp{
         return $this->warp;
     }
-    public function getDestination(){
+    public function getDestination(): Destination{
         return ($this->destination instanceof Destination ? $this->destination : $this->warp->getDestination());
     }
     public function setDestination(Destination $destination){
