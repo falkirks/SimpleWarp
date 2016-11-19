@@ -13,7 +13,6 @@ use falkirks\simplewarp\command\OpenWarpCommand;
 use falkirks\simplewarp\command\WarpCommand;
 use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\store\YAMLStore;
-use falkirks\simplewarp\utils\WeakPosition;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -64,9 +63,17 @@ class SimpleWarp extends PluginBase{
                 new CloseWarpCommand($this->api)
             ]);
         }
+        if(file_exists($this->getDataFolder() . ".started") && $this->warpManager->getFlag() === WarpManager::MEMORY_TILL_CLOSE){
+            $this->getLogger()->critical("SimpleWarp is starting in an inconsistent state. This is likely due to a server crash. You are using storage-mode=0 which means you could have lost data. Read more at http://bit.ly/0data");
+        }
+        file_put_contents($this->getDataFolder() . ".started", "true");
     }
     public function onDisable(){
         $this->warpManager->saveAll();
+        unlink($this->getDataFolder() . ".started");
+        if(file_exists($this->getDataFolder() . ".started")){
+            $this->getLogger()->alert("Unable to clean up session file. You will be shown an error next time you start. You can ignore it.");
+        }
     }
 
     /**

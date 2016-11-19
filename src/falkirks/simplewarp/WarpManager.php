@@ -215,4 +215,12 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
         return $this->warps;
     }
 
+    /**
+     * @return int
+     */
+    public function getFlag(): int{
+        return $this->flag;
+    }
+
+
 }

@@ -11,7 +11,7 @@ display-exact-coordinates: false
   # If set to false the coordinates shown to the end user
   # will be rounded, players will still be teleported to the
   # exact location.
-storage-mode: 0
+storage-mode: 1
   # SimpleWarp can handle the storage of warps in three main ways.
   #
   # MEMORY_TILL_CLOSE = 0
