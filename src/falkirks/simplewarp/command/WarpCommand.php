@@ -5,6 +5,7 @@ namespace falkirks\simplewarp\command;
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
 use falkirks\simplewarp\SimpleWarp;
+use falkirks\simplewarp\task\CommandWarpTask;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
 use pocketmine\command\Command;
@@ -43,10 +44,8 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
                                 /** @var Warp $warp */
                                 $warp = $this->api->getWarpManager()[$args[0]];
                                 if ($warp->canUse($sender)) {
-                                    $this->displaySmoke($player);
-                                    $player->sendPopup($this->api->executeTranslationItem("warping-popup", $args[0]));
-                                    $warp->teleport($player);
-                                    $sender->sendMessage($this->api->executeTranslationItem("other-player-warped", $player->getName(), $args[0]));
+                                    $task = new CommandWarpTask($this->getPlugin(), $warp, $player, $sender);
+                                    $task->run();
                                 }
                                 else{
                                     $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
@@ -64,10 +63,8 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
                         /** @var Warp $warp */
                         $warp = $this->api->getWarpManager()[$args[0]];
                         if($warp->canUse($sender)){
-                            $this->displaySmoke($sender);
-                            $sender->sendPopup($this->api->executeTranslationItem("warping-popup", $args[0]));
-                            $warp->teleport($sender);
-                            $sender->sendMessage($this->api->executeTranslationItem("warp-done"));
+                            $task = new CommandWarpTask($this->getPlugin(), $warp, $sender, $sender);
+                            $task->run();
                         }
                         else{
                             $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));

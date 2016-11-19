@@ -98,7 +98,7 @@ class TranslationManager {
         $this->registerDefault("openwarp-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
         $this->registerDefault("warping-popup", "Warping...");
-        $this->registerDefault("other-player-warped", "%s  has been warped to " . TextFormat::AQUA . "%s" . TextFormat::RESET . ".");
+        $this->registerDefault("other-player-warped", "%s has been warped to " . TextFormat::AQUA . "%s" . TextFormat::RESET . ".");
         $this->registerDefault("no-permission-this-warp", TextFormat::RED . "You don't have permission to use this warp." . TextFormat::RESET);
         $this->registerDefault("no-permission-warp-other", TextFormat::RED . "You don't have permission to warp other players." . TextFormat::RESET);
         $this->registerDefault("warp-done", "You have been warped");
@@ -110,6 +110,11 @@ class TranslationManager {
         $this->registerDefault("ess-warp-conflict",  "The warp called " . TextFormat::AQUA . "%s" . TextFormat::RESET . " exists in both " . TextFormat::AQUA . "EssentialsPE" . TextFormat::RESET . " and " . TextFormat::AQUA . "SimpleWarp" . TextFormat::RESET . ". The one from " . TextFormat::AQUA . "SimpleWarp" . TextFormat::RESET . " will be used by default. If you wish to use the " . TextFormat::AQUA . "EssentialsPE" . TextFormat::RESET . " warp, prefix the warp name with " . TextFormat::DARK_AQUA . "ess:" . TextFormat::RESET);
 
         $this->registerDefault("addwarp-ess-prefix-warning", "Support for " . TextFormat::AQUA . "EssentialsPE" . TextFormat::RESET . " is enabled on this server. When a user wants to explicitly use an " . TextFormat::AQUA . "EssentialsPE" . TextFormat::RESET . " warp, they can prefix their command with " . TextFormat::DARK_AQUA . "ess:" . TextFormat::RESET . ". By choosing to pick a warp name that starts with the same prefix, you are making things complicated. Maybe pick a different name?");
+
+        $this->registerDefault("hold-still-popup", "HOLD STILL to WARP.");
+        $this->registerDefault("hold-still-other", "The target must hold still to complete the warp.");
+        $this->registerDefault("hold-still-cancelled", "The warp was unsuccessful because you moved.");
+        $this->registerDefault("hold-still-cancelled-other", "The warp was unsuccessful because the target moved.");
 
     }
     protected function registerDefault($name, $text){
