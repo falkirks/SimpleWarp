@@ -75,7 +75,7 @@ class TranslationManager {
         $this->registerDefault("warp-added-server", "You have created a warp called " . TextFormat::AQUA . "%s" . TextFormat::RESET . " %s");
         $this->registerDefault("warp-added-self", "You have created a warp called " . TextFormat::AQUA . "%s" . TextFormat::RESET . " %s");
 
-        $this->registerDefault("level-not-loaded", TextFormat::RED . "You specified a level which isn't loaded." . TextFormat::RESET);
+        $this->registerDefault("level-not-loaded", TextFormat::RED . "You specified a level which isn't loaded.\nPlease see http://bit.ly/levelerror for explanation." . TextFormat::RESET);
 
         $this->registerDefault("needs-fast-transfer", "This warp needs " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . ", you will need to install it to use this warp.");
 
