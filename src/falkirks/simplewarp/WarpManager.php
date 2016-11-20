@@ -216,11 +216,50 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
     }
 
     /**
+     * Returns the current storage-mode
+     * #####
+     *  MEMORY_TILL_CLOSE = 0
+     * Warps are loaded into memory when the server starts and are
+     * held there until the server closes. When the server closes
+     * they are converted back into YAML. This new YAML will
+     * replace warps.yml, this means that changes are lost and
+     * warps which fail to load are discarded.
+     *
+     *
+     * FLUSH_ON_CHANGE = 1
+     * Warps are loaded into memory when the server starts. Whenever a
+     * warp is updated, it will be updated in the warps.yml. When the
+     * server closes, the warps file is NOT overwritten.
+     *
+     * NO_MEMORY_STORE = 2
+     * Warps are never "stored" in memory. They are converted on demand
+     * between YAML and object format. Any changes made to the config
+     * will be available right away in the server and vice versa.
+     * ####
      * @return int
      */
     public function getFlag(): int{
         return $this->flag;
     }
 
+    /**
+     * returns the current data store
+     * @return DataStore
+     */
+    public function getStore(): DataStore{
+        return $this->store;
+    }
 
+    /**
+     * Injects a new DataStore for warps
+     * ! This will inject your code into SimpleWarp, potentially breaking!
+     * @param DataStore $store
+     */
+    public function setStore(DataStore $store){
+        $this->saveAll();
+        $this->store = $store;
+        if($this->flag < 2){
+            $this->warps = $this->loadWarps();
+        }
+    }
 }

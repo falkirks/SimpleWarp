@@ -91,6 +91,21 @@ class SimpleWarp extends PluginBase{
     }
 
     /**
+     * @param WarpManager $warpManager
+     */
+    public function setWarpManager(WarpManager $warpManager){
+        $warpManager->saveAll();
+        $this->warpManager = $warpManager;
+    }
+
+    /**
+     * @param TranslationManager $translationManager
+     */
+    public function setTranslationManager(TranslationManager $translationManager){
+        $this->translationManager = $translationManager;
+    }
+
+    /**
      * @return SimpleWarpAPI
      */
     public function getApi(): SimpleWarpAPI{
