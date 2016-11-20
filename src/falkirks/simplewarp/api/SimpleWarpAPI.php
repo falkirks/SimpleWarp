@@ -151,6 +151,71 @@ class SimpleWarpAPI {
     }
 
     /**
+     * gets whether warp metadata is being saved
+     * you can use metadata regardless, it just won't be saved on restart
+     * @return string
+     */
+    public function isMetadataSaved(){
+        return $this->getConfigItem('persist-warp-metadata');
+    }
+
+    /**
+     * Gets the value of a metadata item on a warp safely
+     * IMPORANT: All plugin metadata keys should be expressed as "namespace-keyname"
+     *           this will avoid potential collisions.
+     *           You can use the provided getSafeMetadataName for this.
+     * @param Warp $warp
+     * @param $key
+     * @return mixed
+     */
+    public function getMetadata(Warp $warp, $key){
+        return $warp->getMetadata($key);
+    }
+
+    /**
+     * Sets the value of a metadata item on a warp safely
+     * IMPORANT: All plugin metadata keys should be expressed as "namespace-keyname"
+     *           this will avoid potential collisions.
+     *           You can use the provided getSafeMetadataName for this.
+     * @param Warp $warp
+     * @param $key
+     * @param $value
+     */
+    public function setMetadata(Warp $warp, $key, $value){
+        $warp->setMetadata($key, $value);
+    }
+
+    /**
+     * Gets warp(s) with the key value pair of metadata as specified
+     *
+     * IMPORANT: All plugin metadata keys should be expressed as "namespace-keyname"
+     *           this will avoid potential collisions.
+     *           You can use the provided getSafeMetadataName for this.
+     * @param $key
+     * @param $value
+     * @return array
+     */
+    public function getWarpsFromMetadata($key, $value): array{
+        $ret = [];
+        foreach ($this->getWarpManager()->getIterator() as $warp){
+            if($warp instanceof Warp && $warp->getMetadata($key) === $value){
+                $ret[] = $warp;
+            }
+        }
+        return $ret;
+    }
+
+    /**
+     * gets a c
+     * @param PluginBase $plugin
+     * @param $key
+     * @return string
+     */
+    public function getSafeMetadataName(PluginBase $plugin, $key){
+        return $plugin->getName() . "-" . $key;
+    }
+
+    /**
      * Produces true if FastTransfer is loaded and enabled
      * DEPRECATED!
      * @deprecated

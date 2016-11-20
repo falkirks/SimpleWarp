@@ -33,7 +33,6 @@ class SimpleWarp extends PluginBase{
         $this->warpManager = new WarpManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "warps.yml", Config::YAML)), ($this->getConfig()->get('storage-mode') != null ? $this->getConfig()->get('storage-mode') : WarpManager::MEMORY_TILL_CLOSE));
         if($this->getServer()->getPluginManager()->getPlugin("EssentialsPE") instanceof Plugin && $this->getConfig()->get("essentials-support")){
             $this->getLogger()->info("Enabling EssentialsPE support...");
-            $this->getLogger()->warning("!!!DEPRECATION NOTE!!!: EssentialsPE is no longer maintained by me, and thus I can no longer support it effectively. I will do as best as I can, but the repository is volatile and that makes it hard for me to hook into its API.");
             $warpCommand = $this->getServer()->getCommandMap()->getCommand("warp");
             $delWarpCommand = $this->getServer()->getCommandMap()->getCommand("delwarp");
 

@@ -17,11 +17,13 @@ class Warp{
     protected $name;
     protected $destination;
     protected $isPublic;
+    protected $metadata;
 
-    public function __construct($name, Destination $destination, $isPublic = false){
+    public function __construct($name, Destination $destination, $isPublic = false, $metadata = []){
         $this->name = $name;
         $this->destination = $destination;
         $this->isPublic = $isPublic;
+        $this->metadata = $metadata;
         SimpleWarpPermissions::setupPermission($this);
     }
     public function teleport(Player $player){
@@ -55,6 +57,27 @@ class Warp{
      */
     public function getDestination(): Destination{
         return $this->destination;
+    }
+    /**
+     * @return array
+     */
+    public function getAllMetadata(): array{
+        return $this->metadata;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function getMetadata($key){
+        return $this->metadata[$key] ?? null;
+    }
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setMetadata($key, $value){
+        $this->metadata[$key] = $value;
     }
 
     /**

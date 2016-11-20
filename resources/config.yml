@@ -38,3 +38,8 @@ essentials-support: false
   # two plugins.
 hold-still-enabled: true
 hold-still-time: 100
+
+persist-warp-metadata: false
+  # Warp metadata is an API feature which allows other plugins to
+  # store their data inside the warp object system
+  # if this is false, metadata will not be saved in the config file
