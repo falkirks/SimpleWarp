@@ -165,10 +165,10 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
      */
     protected function warpFromData($name, array $array){
         if(isset($array["level"]) && isset($array["x"]) && isset($array["y"]) && isset($array["z"]) && isset($array["public"])){ // This is an internal warp
-            return new Warp($name, new Destination(new WeakPosition($array["x"], $array["y"], $array["z"], $array["level"])), $array["public"], $array["metadata"] ?? []);
+            return new Warp($this, $name, new Destination(new WeakPosition($array["x"], $array["y"], $array["z"], $array["level"])), $array["public"], $array["metadata"] ?? []);
         }
         elseif(isset($array["address"]) && isset($array["port"]) && isset($array["public"])) {
-            return new Warp($name, new Destination($array["address"], $array["port"]), $array["public"], $array["metadata"] ?? []);
+            return new Warp($this, $name, new Destination($array["address"], $array["port"]), $array["public"], $array["metadata"] ?? []);
         }
 
         $this->api->getSimpleWarp()->getLogger()->critical("A warp with the name " . TextFormat::AQUA . $name . TextFormat::RESET . " is incomplete. It will be removed automatically when your server stops.");
@@ -203,9 +203,7 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
             ];
         }
 
-        if($this->api->getConfigItem('persist-warp-metadata')){
-            $ret["metadata"] = $warp->getAllMetadata();
-        }
+        $ret["metadata"] = $warp->getAllMetadata();
         return $ret;
     }
 

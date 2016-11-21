@@ -2,6 +2,7 @@
 namespace falkirks\simplewarp\api;
 
 
+use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Warp;
@@ -79,11 +80,25 @@ class SimpleWarpAPI {
 
     /**
      * Adds a new Warp to the WarpManager, will be saved according to storage-mode
-     * @param $name
      * @param Warp $warp
      */
-    public function addWarp($name, Warp $warp){
-        $this->getWarpManager()[$name] = $warp;
+    public function saveWarp(Warp $warp){
+        $this->getWarpManager()[$warp->getName()] = $warp;
+    }
+
+    /**
+     * Creates a new warp object and saves it.
+     *
+     * @param $name
+     * @param Destination $dest
+     * @param bool $isPublic
+     * @param array $metadata
+     * @return Warp
+     */
+    public function makeWarp($name, Destination $dest, $isPublic = false, $metadata = []){
+        $w = new Warp($this->getWarpManager(), $name, $dest, $isPublic, $metadata);
+        $this->saveWarp($w);
+        return $w;
     }
 
     /**
@@ -156,7 +171,7 @@ class SimpleWarpAPI {
      * @return string
      */
     public function isMetadataSaved(){
-        return $this->getConfigItem('persist-warp-metadata');
+        return true;
     }
 
     /**

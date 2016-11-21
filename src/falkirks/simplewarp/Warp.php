@@ -14,12 +14,14 @@ use pocketmine\Server;
  * @package falkirks\simplewarp
  */
 class Warp{
+    protected $manager;
     protected $name;
     protected $destination;
     protected $isPublic;
     protected $metadata;
 
-    public function __construct($name, Destination $destination, $isPublic = false, $metadata = []){
+    public function __construct(WarpManager $manager, $name, Destination $destination, $isPublic = false, $metadata = []){
+        $this->manager = $manager;
         $this->name = $name;
         $this->destination = $destination;
         $this->isPublic = $isPublic;
@@ -43,6 +45,7 @@ class Warp{
      */
     public function setPublic($isPublic = true){
         $this->isPublic = $isPublic;
+        $this->getManager()->offsetSet($this->name, $this);
     }
 
     /**
@@ -58,6 +61,23 @@ class Warp{
     public function getDestination(): Destination{
         return $this->destination;
     }
+
+    /**
+     * @param Destination $destination
+     */
+    public function setDestination(Destination $destination){
+        $this->destination = $destination;
+        $this->getManager()->offsetSet($this->name, $this);
+    }
+
+    /**
+     * @param WarpManager $manager
+     */
+    public function setManager(WarpManager $manager){
+        $this->manager = $manager;
+        $this->getManager()->offsetSet($this->name, $this);
+    }
+
     /**
      * @return array
      */
@@ -78,6 +98,7 @@ class Warp{
      */
     public function setMetadata($key, $value){
         $this->metadata[$key] = $value;
+        $this->getManager()->offsetSet($this->name, $this);
     }
 
     /**
@@ -90,4 +111,10 @@ class Warp{
         return Server::getInstance();
     }
 
+    /**
+     * @return WarpManager
+     */
+    public function getManager(): WarpManager{
+        return $this->manager;
+    }
 }

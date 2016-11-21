@@ -37,7 +37,6 @@ class CloseWarpCommand extends Command implements PluginIdentifiableCommand{
                     $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
                     if(!$ev->isCancelled()){
                         $warp->setPublic(false);
-                        $this->api->getWarpManager()[$args[0]] = $warp;
                         $sender->sendMessage($this->api->executeTranslationItem("closed-warp-1", $args[0]));
                         $sender->sendMessage($this->api->executeTranslationItem("closed-warp-2", SimpleWarpPermissions::BASE_WARP_PERMISSION . "." . $warp->getName()));
                     }

@@ -43,7 +43,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                         $level = (isset($args[4]) ? $this->api->getSimpleWarp()->getServer()->getLevelByName($args[4]) : $this->api->getSimpleWarp()->getServer()->getDefaultLevel());
                         if ($level instanceof Level) {
                             $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $level->getName()));
-                            $warp = new Warp($args[0], $dest);
+                            $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                             $ev = new WarpAddEvent($sender, $warp);
                             $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
                             if(!$ev->isCancelled()) {
@@ -60,7 +60,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                     }
                     elseif (isset($args[2])) {
                         $dest = new Destination($args[1], $args[2]);
-                        $warp = new Warp($args[0], $dest);
+                        $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                         $ev = new WarpAddEvent($sender, $warp);
                         $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
                         if(!$ev->isCancelled()){
@@ -77,7 +77,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                     elseif (isset($args[1])) {
                         if (($player = $this->api->getSimpleWarp()->getServer()->getPlayer($args[1])) instanceof Player) {
                             $dest = new Destination(new Position($player->getX(), $player->getY(), $player->getZ(), $player->getLevel()));
-                            $warp = new Warp($args[0], $dest);
+                            $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                             $ev = new WarpAddEvent($sender, $warp);
                             $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
                             if(!$ev->isCancelled()) {
@@ -95,7 +95,7 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                     else {
                         if ($sender instanceof Player) {
                             $dest = new Destination(new Position($sender->getX(), $sender->getY(), $sender->getZ(), $sender->getLevel()));
-                            $warp = new Warp($args[0], $dest);
+                            $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                             $ev = new WarpAddEvent($sender, $warp);
                             $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
                             if(!$ev->isCancelled()) {
