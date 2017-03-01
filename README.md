@@ -8,7 +8,7 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
 | Command | Usage | Description | 
 | ------- | ----- | ----------- |
 | `/warp` | `/warp <name> [player]` | Warps you or another player to a specified warp. |
-| `/addwarp` | `/addwarp <name> [<ip> <port>|<x> <y> <z> <level>|<player>]` | Creates a new warp at a set location. |
+| `/addwarp` | `/addwarp <name> <x> <y> <z> <level>|<player>]` | Creates a new warp at a set location. In 0.13 PocketMine, server to server transfer is not possible.
 | `/delwarp` | `/delwarp <name>` | Deletes specified warp. |
 | `/listwarps` | `/listwarps` | Prints out list of warps. |
 | `/openwarp` | `/openwarp <name>` | Allows any player to access specified warp. |

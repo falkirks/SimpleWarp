@@ -10,7 +10,6 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
-use shoghicp\FastTransfer\FastTransfer;
 
 class Destination{
     /** @var Position  */
@@ -24,22 +23,10 @@ class Destination{
         if(isset($params[0])){
             if($params[0] instanceof Position){
                 $this->position = $params[0];
-                $this->message = (isset($params[1]) ? $params[1] : null);
-            }
-            else{
-                if(isset($params[1])){
-                    $this->address = $params[0];
-                    $this->port = $params[1];
-                    $this->message = (isset($params[2]) ? $params[2] : null);
-                }
-                else{
-                    throw new \BadMethodCallException;
-                }
-            }
-        }
+                $this->message = (isset($params[1]) ? $params[1] : 
         else{
-            throw new \BadMethodCallException;
-        }
+            throw new /BadMethodException
+
     }
     public function teleport(Player $player){
         if($this->message !== null){
@@ -58,16 +45,7 @@ class Destination{
                 $player->sendMessage($this->getApi()->executeTranslationItem("level-not-loaded-warp"));
             }
         }
-        else{
-            $plugin = $player->getServer()->getPluginManager()->getPlugin("FastTransfer");
-            if($plugin instanceof PluginBase && $plugin->isEnabled() && $plugin instanceof FastTransfer){
-                $plugin->transferPlayer($player, $this->address, $this->port);
-            }
-            else{
-                $player->getServer()->getPluginManager()->getPlugin("SimpleWarp")->getLogger()->warning("In order to use warps tp other servers, you must install " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . ".");
-                $player->sendPopup(TextFormat::RED . "Warp failed!" . TextFormat::RESET);
-            }
-        }
+        
     }
     public function isInternal(): bool{
         return $this->position instanceof Position;
@@ -108,8 +86,7 @@ class Destination{
                 return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $levelName . ")";
             }
         }
-        return "(IP: {$this->getAddress()}, PORT: {$this->getPort()})";
-    }
+      }
 
     /**
      * @return SimpleWarpApi
