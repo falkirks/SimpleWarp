@@ -212,7 +212,7 @@ class SimpleWarpAPI {
      */
     public function getWarpsFromMetadata($key, $value): array{
         $ret = [];
-        foreach ($this->getWarpManager()->getIterator() as $warp){
+        foreach ($this->getWarpManager() as $warp){
             if($warp instanceof Warp && $warp->getMetadata($key) === $value){
                 $ret[] = $warp;
             }

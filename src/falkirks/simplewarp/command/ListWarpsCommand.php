@@ -31,7 +31,7 @@ class ListWarpsCommand extends Command implements PluginIdentifiableCommand{
         if($sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND)){
             $ret = $this->api->executeTranslationItem("listwarps-list-title");
             /** @var Warp[] $iterator */
-            $iterator = $this->api->getWarpManager()->getIterator();
+            $iterator = $this->api->getWarpManager();
             foreach($iterator as $w){
                 if($w->canUse($sender)){
                     $ret .= " * " . $w->getName() .  " ";

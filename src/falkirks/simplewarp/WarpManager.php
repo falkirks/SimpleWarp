@@ -216,9 +216,9 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
      */
     public function getIterator(){
         if($this->flag >= 2){
-            return $this->loadWarps();
+            return new \ArrayIterator($this->loadWarps());
         }
-        return $this->warps;
+        return new \ArrayIterator($this->warps);
     }
 
     /**
@@ -246,6 +246,13 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
      */
     public function getFlag(): int{
         return $this->flag;
+    }
+
+    /**
+     * @return Warp[]
+     */
+    public function getWarps(): array{
+        return $this->warps;
     }
 
     /**
