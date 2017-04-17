@@ -10,7 +10,6 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
-use shoghicp\FastTransfer\FastTransfer;
 
 class Destination{
     /** @var Position  */
@@ -60,12 +59,15 @@ class Destination{
         }
         else{
             $plugin = $player->getServer()->getPluginManager()->getPlugin("FastTransfer");
-            if($plugin instanceof PluginBase && $plugin->isEnabled() && $plugin instanceof FastTransfer){
+            if(method_exists($player, "transfer")){
+                $player->transfer($this->address, $this->port);
+            }
+            elseif($plugin instanceof PluginBase && $plugin->isEnabled()){
                 $plugin->transferPlayer($player, $this->address, $this->port);
             }
             else{
-                $player->getServer()->getPluginManager()->getPlugin("SimpleWarp")->getLogger()->warning("In order to use warps tp other servers, you must install " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . ".");
-                $player->sendPopup(TextFormat::RED . "Warp failed!" . TextFormat::RESET);
+                $player->getServer()->getPluginManager()->getPlugin("SimpleWarp")->getLogger()->warning("In order to use warps to other servers, you must install " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . " or use a newer PocketMine version.");
+                $player->sendPopup($this->getApi()->executeTranslationItem("warp-failed-popup"));
             }
         }
     }

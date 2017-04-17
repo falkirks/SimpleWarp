@@ -66,8 +66,8 @@ class AddWarpCommand extends Command implements PluginIdentifiableCommand{
                         if(!$ev->isCancelled()){
                             $this->api->getWarpManager()[$args[0]] = $warp;
                             $sender->sendMessage($this->api->executeTranslationItem("warp-added-server", $args[0], $dest->toString()));
-                            if (!$this->api->isFastTransferLoaded()) {
-                                $sender->sendMessage($this->api->executeTranslationItem("needs-fast-transfer"));
+                            if (!$this->api->supportsExternalWarps()) {
+                                $sender->sendMessage($this->api->executeTranslationItem("needs-external-warps"));
                             }
                         }
                         else{

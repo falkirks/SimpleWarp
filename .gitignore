@@ -1,3 +1,7 @@
 .idea/*
 src/simplewarp
 out
+config.yml
+lang.yml
+warps.yml
+.started

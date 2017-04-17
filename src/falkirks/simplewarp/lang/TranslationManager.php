@@ -77,7 +77,7 @@ class TranslationManager {
 
         $this->registerDefault("level-not-loaded", TextFormat::RED . "You specified a level which isn't loaded.\nPlease see http://bit.ly/levelerror for explanation." . TextFormat::RESET);
 
-        $this->registerDefault("needs-fast-transfer", "This warp needs " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . ", you will need to install it to use this warp.");
+        $this->registerDefault("needs-external-warps", "This warp needs " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . " or a newer version of PocketMine.");
 
         $this->registerDefault("player-not-loaded", TextFormat::RED . "You specified a player which isn't loaded." . TextFormat::RESET);
 
@@ -115,6 +115,8 @@ class TranslationManager {
         $this->registerDefault("hold-still-other", "The target must hold still to complete the warp.");
         $this->registerDefault("hold-still-cancelled", "The warp was unsuccessful because you moved.");
         $this->registerDefault("hold-still-cancelled-other", "The warp was unsuccessful because the target moved.");
+
+        $this->registerDefault("warp-failed-popup", TextFormat::RED . "Warp failed!" . TextFormat::RESET);
 
     }
     protected function registerDefault($name, $text){

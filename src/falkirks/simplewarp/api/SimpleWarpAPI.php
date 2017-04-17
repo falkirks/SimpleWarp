@@ -239,6 +239,14 @@ class SimpleWarpAPI {
     public function isFastTransferLoaded(): bool{
         return $this->getSimpleWarp()->getServer()->getPluginManager()->getPlugin("FastTransfer") instanceof PluginBase;
     }
+
+    /**
+     * Returns true if external warps are supported, false otherwise
+     * @return bool
+     */
+    public function supportsExternalWarps(): bool {
+        return method_exists(Player::class, "transfer") || $this->getSimpleWarp()->getServer()->getPluginManager()->getPlugin("FastTransfer") instanceof PluginBase;
+    }
     /**
      * This will hopefully save someone typing.
      * Call SimpleWarpAPI::getInstance($this) from your main class to get the current API instance
