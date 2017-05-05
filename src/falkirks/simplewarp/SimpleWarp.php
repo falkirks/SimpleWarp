@@ -69,7 +69,7 @@ class SimpleWarp extends PluginBase{
     }
     public function onDisable(){
         $this->warpManager->saveAll();
-        unlink($this->getDataFolder() . ".started");
+        @unlink($this->getDataFolder() . ".started");
         if(file_exists($this->getDataFolder() . ".started")){
             $this->getLogger()->alert("Unable to clean up session file. You will be shown an error next time you start. You can ignore it.");
         }
