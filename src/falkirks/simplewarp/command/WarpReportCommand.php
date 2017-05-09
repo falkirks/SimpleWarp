@@ -15,7 +15,7 @@ use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils;
 
-class WarpReportCommand extends Command implements PluginIdentifiableCommand{
+class WarpReportCommand extends SimpleWarpCommand {
     private $api;
     public function __construct(SimpleWarpAPI $api){
         parent::__construct($api->executeTranslationItem("warpreport-cmd"), $api->executeTranslationItem("warpreport-desc"), $api->executeTranslationItem("warpreport-usage"));
@@ -30,36 +30,38 @@ class WarpReportCommand extends Command implements PluginIdentifiableCommand{
      * @return mixed
      */
     public function execute(CommandSender $sender, $commandLabel, array $args){
-        if($sender->hasPermission(SimpleWarpPermissions::WARP_REPORT_COMMAND)){
-            $data = $this->getPlugin()->getDebugDumpFactory()->generate();
-            if($sender instanceof ConsoleCommandSender){
-                $issueContent = "\n\n(Explain your problem here)\n\n```\n$data\n```";
-                $url = "https://github.com/Falkirks/SimpleWarp/issues/new" . (count($args) > 0 ? "?title=" . urlencode(implode(" ", $args)) . "\&" : "?") . "body=" . urlencode($issueContent);
-                switch(Utils::getOS()){
-                    case 'win':
-                        `start $url`;
-                        break;
-                    case 'mac':
-                        `open $url`;
-                        break;
-                    case 'linux':
-                        `xdg-open $url`;
-                        break;
-                    default:
-                        $sender->sendMessage("Copy and paste the following URL into your browser to start a report.");
-                        $sender->sendMessage("------------------");
-                        $sender->sendMessage($url);
-                        $sender->sendMessage("------------------");
-                        break;
+        if(parent::execute($sender, $commandLabel, $args)) {
+            if ($sender->hasPermission(SimpleWarpPermissions::WARP_REPORT_COMMAND)) {
+                $data = $this->getPlugin()->getDebugDumpFactory()->generate();
+                if ($sender instanceof ConsoleCommandSender) {
+                    $issueContent = "\n\n(Explain your problem here)\n\n```\n$data\n```";
+                    $url = "https://github.com/Falkirks/SimpleWarp/issues/new" . (count($args) > 0 ? "?title=" . urlencode(implode(" ", $args)) . "\&" : "?") . "body=" . urlencode($issueContent);
+                    switch (Utils::getOS()) {
+                        case 'win':
+                            `start $url`;
+                            break;
+                        case 'mac':
+                            `open $url`;
+                            break;
+                        case 'linux':
+                            `xdg-open $url`;
+                            break;
+                        default:
+                            $sender->sendMessage("Copy and paste the following URL into your browser to start a report.");
+                            $sender->sendMessage("------------------");
+                            $sender->sendMessage($url);
+                            $sender->sendMessage("------------------");
+                            break;
+                    }
                 }
+                $sender->sendMessage("--- SimpleWarp Data ---");
+                $sender->sendMessage($data);
             }
-            $sender->sendMessage("--- SimpleWarp Data ---");
-            $sender->sendMessage($data);
+            else {
+                $sender->sendMessage($this->api->executeTranslationItem("warpreport-noperm"));
+            }
+            return true;
         }
-        else{
-            $sender->sendMessage($this->api->executeTranslationItem("warpreport-noperm"));
-        }
-        return true;
     }
 
 

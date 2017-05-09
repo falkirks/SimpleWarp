@@ -1,4 +1,5 @@
 <?php
+
 namespace falkirks\simplewarp\command;
 
 
@@ -20,9 +21,10 @@ use pocketmine\Player;
 use pocketmine\utils\Random;
 use pocketmine\utils\TextFormat;
 
-class WarpCommand extends Command implements PluginIdentifiableCommand{
+class WarpCommand extends SimpleWarpCommand {
     protected $api;
-    public function __construct(SimpleWarpAPI $api){
+
+    public function __construct(SimpleWarpAPI $api) {
         parent::__construct($api->executeTranslationItem("warp-cmd"), $api->executeTranslationItem("warp-desc"), $api->executeTranslationItem("warp-usage"));
         $this->api = $api;
     }
@@ -34,66 +36,69 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args){
-        if($sender->hasPermission(SimpleWarpPermissions::WARP_COMMAND)){
-            if(isset($args[0])){
-                if(isset($this->api->getWarpManager()[$args[0]])) {
-                    if (isset($args[1])) {
-                        if($sender->hasPermission(SimpleWarpPermissions::WARP_OTHER_COMMAND)) {
-                            if (($player = $this->api->getSimpleWarp()->getServer()->getPlayer($args[1])) instanceof Player) {
-                                /** @var Warp $warp */
-                                $warp = $this->api->getWarpManager()[$args[0]];
-                                if ($warp->canUse($sender)) {
-                                    $task = new CommandWarpTask($this->getPlugin(), $warp, $player, $sender);
-                                    $task->run();
+    public function execute(CommandSender $sender, $commandLabel, array $args) {
+        if (parent::execute($sender, $commandLabel, $args)) {
+            if ($sender->hasPermission(SimpleWarpPermissions::WARP_COMMAND)) {
+                if (isset($args[0])) {
+                    if (isset($this->api->getWarpManager()[$args[0]])) {
+                        if (isset($args[1])) {
+                            if ($sender->hasPermission(SimpleWarpPermissions::WARP_OTHER_COMMAND)) {
+                                if (($player = $this->api->getSimpleWarp()->getServer()->getPlayer($args[1])) instanceof Player) {
+                                    /** @var Warp $warp */
+                                    $warp = $this->api->getWarpManager()[$args[0]];
+                                    if ($warp->canUse($sender)) {
+                                        $task = new CommandWarpTask($this->getPlugin(), $warp, $player, $sender);
+                                        $task->run();
+                                    }
+                                    else {
+                                        $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
+                                    }
                                 }
-                                else{
-                                    $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
+                                else {
+                                    $sender->sendMessage($this->api->executeTranslationItem("player-not-loaded"));
                                 }
                             }
                             else {
-                                $sender->sendMessage($this->api->executeTranslationItem("player-not-loaded"));
+                                $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp-other"));
                             }
                         }
-                        else{
-                            $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp-other"));
+                        elseif ($sender instanceof Player) {
+                            /** @var Warp $warp */
+                            $warp = $this->api->getWarpManager()[$args[0]];
+                            if ($warp->canUse($sender)) {
+                                $task = new CommandWarpTask($this->getPlugin(), $warp, $sender, $sender);
+                                $task->run();
+                            }
+                            else {
+                                $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
+                            }
                         }
-                    }
-                    elseif ($sender instanceof Player) {
-                        /** @var Warp $warp */
-                        $warp = $this->api->getWarpManager()[$args[0]];
-                        if($warp->canUse($sender)){
-                            $task = new CommandWarpTask($this->getPlugin(), $warp, $sender, $sender);
-                            $task->run();
-                        }
-                        else{
-                            $sender->sendMessage($this->api->executeTranslationItem("no-permission-warp"));
+                        else {
+                            $sender->sendMessage($this->getUsage());
+
                         }
                     }
                     else {
-                        $sender->sendMessage($this->getUsage());
-
+                        $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist"));
                     }
                 }
-                else{
-                    $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist"));
+                else {
+                    $sender->sendMessage($this->getUsage());
+                    Version::sendVersionMessage($sender);
                 }
             }
-            else{
-                $sender->sendMessage($this->getUsage());
-                Version::sendVersionMessage($sender);
+            else {
+                $sender->sendMessage($this->api->executeTranslationItem("warp-noperm"));
             }
         }
-        else{
-            $sender->sendMessage($this->api->executeTranslationItem("warp-noperm"));
-        }
     }
-    public function displaySmoke(Position $pos){
+
+    public function displaySmoke(Position $pos) {
         //particle smoke 120 71 124 1 1 1 35 200
-        $random = new Random((int) (microtime(true) * 1000) + mt_rand());
+        $random = new Random((int)(microtime(true) * 1000) + mt_rand());
 
         $particle = new SmokeParticle(new Vector3($pos->x, $pos->y + 0.7, $pos->z), 200);
-        for($i = 0; $i < 35; ++$i){
+        for ($i = 0; $i < 35; ++$i) {
             $particle->setComponents(
                 $pos->x + $random->nextSignedFloat(),
                 $pos->y + $random->nextSignedFloat(),
@@ -106,7 +111,7 @@ class WarpCommand extends Command implements PluginIdentifiableCommand{
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp{
+    public function getPlugin(): SimpleWarp {
         return $this->api->getSimpleWarp();
     }
 }

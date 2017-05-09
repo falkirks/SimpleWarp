@@ -13,7 +13,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\utils\TextFormat;
 
-class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
+class OpenWarpCommand extends SimpleWarpCommand {
     private $api;
     public function __construct(SimpleWarpAPI $api){
         parent::__construct($api->executeTranslationItem("openwarp-cmd"), $api->executeTranslationItem("openwarp-desc"), $api->executeTranslationItem("openwarp-usage"));
@@ -28,33 +28,35 @@ class OpenWarpCommand extends Command implements PluginIdentifiableCommand{
      * @return mixed
      */
     public function execute(CommandSender $sender, $commandLabel, array $args){
-        if($sender->hasPermission(SimpleWarpPermissions::OPEN_WARP_COMMAND)){
-            if(isset($args[0])){
-                if(isset($this->api->getWarpManager()[$args[0]])) {
-                    /** @var Warp $warp */
-                    $warp = $this->api->getWarpManager()[$args[0]];
-                    $ev = new WarpOpenEvent($sender, $warp);
-                    $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
-                    if(!$ev->isCancelled()){
-                        $warp->setPublic(true);
-                        $sender->sendMessage($this->api->executeTranslationItem("opened-warp-1", $args[0]));
-                        $sender->sendMessage($this->api->executeTranslationItem("opened-warp-2"));
+        if(parent::execute($sender, $commandLabel, $args)) {
+            if ($sender->hasPermission(SimpleWarpPermissions::OPEN_WARP_COMMAND)) {
+                if (isset($args[0])) {
+                    if (isset($this->api->getWarpManager()[$args[0]])) {
+                        /** @var Warp $warp */
+                        $warp = $this->api->getWarpManager()[$args[0]];
+                        $ev = new WarpOpenEvent($sender, $warp);
+                        $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                        if (!$ev->isCancelled()) {
+                            $warp->setPublic(true);
+                            $sender->sendMessage($this->api->executeTranslationItem("opened-warp-1", $args[0]));
+                            $sender->sendMessage($this->api->executeTranslationItem("opened-warp-2"));
+                        }
+                        else {
+                            $sender->sendMessage($this->api->executeTranslationItem("openwarp-event-cancelled"));
+                        }
                     }
-                    else{
-                        $sender->sendMessage($this->api->executeTranslationItem("openwarp-event-cancelled"));
+                    else {
+                        $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));
                     }
                 }
-                else{
-                    $sender->sendMessage($this->api->executeTranslationItem("warp-doesnt-exist", $args[0]));
+                else {
+                    $sender->sendMessage($this->getUsage());
+                    Version::sendVersionMessage($sender);
                 }
             }
-            else{
-                $sender->sendMessage($this->getUsage());
-                Version::sendVersionMessage($sender);
+            else {
+                $sender->sendMessage($this->api->executeTranslationItem("openwarp-noperm"));
             }
-        }
-        else{
-            $sender->sendMessage($this->api->executeTranslationItem("openwarp-noperm"));
         }
     }
 

@@ -123,7 +123,7 @@ class TranslationManager {
         $this->registerDefault("warpreport-usage", "/warpreport [title]");
         $this->registerDefault("warpreport-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
-
+        $this->registerDefault("plugin-disabled", TextFormat::RED . "SimpleWarp is disabled and can't execute commands." . TextFormat::RESET);
     }
     protected function registerDefault($name, $text){
         if(!$this->store->exists($name)){
