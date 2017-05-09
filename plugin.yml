@@ -33,6 +33,8 @@ permissions:
       default: op
      simplewarp.command.closewarp:
        default: op
+     simplewarp.command.closewarp:
+       default: op
    simplewarp.essentials.notice:
     default: op
     description: Recieve messages when their is warp conflict in Essentials

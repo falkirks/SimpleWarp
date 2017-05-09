@@ -118,6 +118,12 @@ class TranslationManager {
 
         $this->registerDefault("warp-failed-popup", TextFormat::RED . "Warp failed!" . TextFormat::RESET);
 
+        $this->registerDefault("warpreport-cmd", "warpreport");
+        $this->registerDefault("warpreport-desc", "Report an issue with SimpleWarp.");
+        $this->registerDefault("warpreport-usage", "/warpreport [title]");
+        $this->registerDefault("warpreport-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
+
+
     }
     protected function registerDefault($name, $text){
         if(!$this->store->exists($name)){

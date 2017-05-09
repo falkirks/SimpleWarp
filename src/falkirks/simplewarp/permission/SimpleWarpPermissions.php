@@ -16,6 +16,7 @@ class SimpleWarpPermissions {
     const LIST_WARPS_COMMAND_VISUAL = "simplewarp.command.list.visual";
     const OPEN_WARP_COMMAND = "simplewarp.command.openwarp";
     const CLOSE_WARP_COMMAND = "simplewarp.command.closewarp";
+    const WARP_REPORT_COMMAND = "simplewarp.commamd.report";
 
     const BASE_WARP_PERMISSION = "simplewarp.warp";
 

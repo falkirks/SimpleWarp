@@ -11,8 +11,10 @@ use falkirks\simplewarp\command\essentials\EssentialsWarpCommand;
 use falkirks\simplewarp\command\ListWarpsCommand;
 use falkirks\simplewarp\command\OpenWarpCommand;
 use falkirks\simplewarp\command\WarpCommand;
+use falkirks\simplewarp\command\WarpReportCommand;
 use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\store\YAMLStore;
+use falkirks\simplewarp\utils\DebugDumpFactory;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -24,11 +26,14 @@ class SimpleWarp extends PluginBase{
     private $warpManager;
     /** @var  TranslationManager */
     private $translationManager;
+    /** @var  DebugDumpFactory */
+    private $debugDumpFactory;
 
     public function onEnable(){
         $this->saveDefaultConfig();
 
         $this->api = new SimpleWarpAPI($this);
+        $this->debugDumpFactory = new DebugDumpFactory($this->api);
         $this->translationManager = new TranslationManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "lang.yml", Config::YAML)));
         $this->warpManager = new WarpManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "warps.yml", Config::YAML)), ($this->getConfig()->get('storage-mode') != null ? $this->getConfig()->get('storage-mode') : WarpManager::MEMORY_TILL_CLOSE));
         if($this->getServer()->getPluginManager()->getPlugin("EssentialsPE") instanceof Plugin && $this->getConfig()->get("essentials-support")){
@@ -59,7 +64,8 @@ class SimpleWarp extends PluginBase{
                 new DelWarpCommand($this->api),
                 new ListWarpsCommand($this->api),
                 new OpenWarpCommand($this->api),
-                new CloseWarpCommand($this->api)
+                new CloseWarpCommand($this->api),
+                new WarpReportCommand($this->api)
             ]);
         }
         if(file_exists($this->getDataFolder() . ".started") && $this->warpManager->getFlag() === WarpManager::MEMORY_TILL_CLOSE){
@@ -74,6 +80,15 @@ class SimpleWarp extends PluginBase{
             $this->getLogger()->alert("Unable to clean up session file. You will be shown an error next time you start. You can ignore it.");
         }
     }
+
+    /**
+     * @return DebugDumpFactory
+     */
+    public function getDebugDumpFactory(): DebugDumpFactory{
+        return $this->debugDumpFactory;
+    }
+
+
 
     /**
      * @return WarpManager

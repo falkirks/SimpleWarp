@@ -13,7 +13,7 @@ use pocketmine\Server;
  * Class Warp
  * @package falkirks\simplewarp
  */
-class Warp{
+class Warp implements \JsonSerializable {
     protected $manager;
     protected $name;
     protected $destination;
@@ -117,4 +117,18 @@ class Warp{
     public function getManager(): WarpManager{
         return $this->manager;
     }
+
+    /**
+     * For debugging use
+     * @return array
+     */
+    public function jsonSerialize(){
+        return [
+            'dest' => $this->getDestination()->toString(),
+            'isPublic' => $this->isPublic(),
+            'metadata' => $this->metadata
+        ];
+    }
+
+
 }
