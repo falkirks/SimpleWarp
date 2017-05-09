@@ -4,4 +4,5 @@ branches:
 projects:
   SimpleWarp:
     path: ""
+    icon: meta/simplewarp.png
 ...
