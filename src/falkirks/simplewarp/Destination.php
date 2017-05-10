@@ -113,6 +113,11 @@ class Destination{
         return "(IP: {$this->getAddress()}, PORT: {$this->getPort()})";
     }
 
+    public function __toString() {
+        return $this->toString();
+    }
+
+
     /**
      * @return SimpleWarpApi
      */
