@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: noahheyl
- * Date: 2017-05-09
- * Time: 12:21 PM
- */
-
 namespace falkirks\simplewarp\utils;
 
 use pocketmine\plugin\PluginBase;

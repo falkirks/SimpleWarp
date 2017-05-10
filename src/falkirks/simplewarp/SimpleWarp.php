@@ -16,6 +16,7 @@ use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\store\YAMLStore;
 use falkirks\simplewarp\utils\DebugDumpFactory;
 use falkirks\simplewarp\utils\SpoonDetector;
+use pocketmine\command\Command;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -29,6 +30,8 @@ class SimpleWarp extends PluginBase{
     private $translationManager;
     /** @var  DebugDumpFactory */
     private $debugDumpFactory;
+    /** @var  Command[] */
+    private $commands;
 
     public function onEnable(){
         $this->saveDefaultConfig();
@@ -37,41 +40,36 @@ class SimpleWarp extends PluginBase{
         $this->debugDumpFactory = new DebugDumpFactory($this->api);
         $this->translationManager = new TranslationManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "lang.yml", Config::YAML)));
         $this->warpManager = new WarpManager($this->api, new YAMLStore(new Config($this->getDataFolder() . "warps.yml", Config::YAML)), ($this->getConfig()->get('storage-mode') != null ? $this->getConfig()->get('storage-mode') : WarpManager::MEMORY_TILL_CLOSE));
+
+        $this->commands = [
+            new ListWarpsCommand($this->api),
+            new OpenWarpCommand($this->api),
+            new CloseWarpCommand($this->api),
+            new WarpReportCommand($this->api),
+            new AddWarpCommand($this->api)
+        ];
         if($this->getServer()->getPluginManager()->getPlugin("EssentialsPE") instanceof Plugin && $this->getConfig()->get("essentials-support")){
             $this->getLogger()->info("Enabling EssentialsPE support...");
             $warpCommand = $this->getServer()->getCommandMap()->getCommand("warp");
             $delWarpCommand = $this->getServer()->getCommandMap()->getCommand("delwarp");
-
             $this->unregisterCommands([
                 "warp",
                 "delwarp"
             ]);
-
-            $this->getServer()->getCommandMap()->registerAll("simplewarp", [
-                new EssentialsWarpCommand($this->api, $warpCommand),
-                new AddWarpCommand($this->api),
-                new EssentialsDelWarpCommand($this->api, $delWarpCommand),
-                new ListWarpsCommand($this->api),
-                new OpenWarpCommand($this->api),
-                new CloseWarpCommand($this->api)
-            ]);
-
-
+            array_push($this->commands, new EssentialsWarpCommand($this->api, $warpCommand));
+            array_push($this->commands, new EssentialsDelWarpCommand($this->api, $delWarpCommand));
         }
         else {
-            $this->getServer()->getCommandMap()->registerAll("simplewarp", [
-                new WarpCommand($this->api),
-                new AddWarpCommand($this->api),
-                new DelWarpCommand($this->api),
-                new ListWarpsCommand($this->api),
-                new OpenWarpCommand($this->api),
-                new CloseWarpCommand($this->api),
-                new WarpReportCommand($this->api)
-            ]);
+            array_push($this->commands, new WarpCommand($this->api));
+            array_push($this->commands, new DelWarpCommand($this->api));
         }
+
+        $this->getServer()->getCommandMap()->registerAll("simplewarp", $this->commands);
+
         if(file_exists($this->getDataFolder() . ".started") && $this->warpManager->getFlag() === WarpManager::MEMORY_TILL_CLOSE){
             $this->getLogger()->critical("SimpleWarp is starting in an inconsistent state. This is likely due to a server crash. You are using storage-mode=0 which means you could have lost data. Read more at http://bit.ly/0data");
         }
+
         file_put_contents($this->getDataFolder() . ".started", "true");
         SpoonDetector::printSpoon($this, 'spoon.txt');
     }
@@ -95,7 +93,6 @@ class SimpleWarp extends PluginBase{
     public function getDebugDumpFactory(): DebugDumpFactory{
         return $this->debugDumpFactory;
     }
-
 
 
     /**
@@ -148,4 +145,10 @@ class SimpleWarp extends PluginBase{
         }
     }
 
+    /**
+     * @return Command[]
+     */
+    public function getCommands(): array {
+        return $this->commands;
+    }
 }
