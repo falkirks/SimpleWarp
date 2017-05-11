@@ -104,7 +104,7 @@ class Destination{
                 $levelName = $this->position->getLevel()->getName();
             }
             if($this->getApi()->getConfigItem("display-exact-coordinates")) {
-                return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$levelName}) ";
+                return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$levelName})";
             }
             else{
                 return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $levelName . ")";
