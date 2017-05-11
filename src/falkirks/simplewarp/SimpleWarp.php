@@ -14,12 +14,14 @@ use falkirks\simplewarp\command\WarpCommand;
 use falkirks\simplewarp\command\WarpReportCommand;
 use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\store\YAMLStore;
+use falkirks\simplewarp\utils\ChecksumVerify;
 use falkirks\simplewarp\utils\DebugDumpFactory;
 use falkirks\simplewarp\utils\SpoonDetector;
 use pocketmine\command\Command;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
+use pocketmine\utils\TextFormat;
 
 class SimpleWarp extends PluginBase{
     /** @var  SimpleWarpAPI */
@@ -72,6 +74,13 @@ class SimpleWarp extends PluginBase{
 
         file_put_contents($this->getDataFolder() . ".started", "true");
         SpoonDetector::printSpoon($this, 'spoon.txt');
+
+        if(ChecksumVerify::isValid($this)){
+            $this->getLogger()->info(TextFormat::LIGHT_PURPLE . "Your copy of SimpleWarp was verified." . TextFormat::RESET);
+        }
+        else{
+            //TODO add negative response (in next version because I don't know if this works)
+        }
     }
     public function onDisable(){
         $this->warpManager->saveAll();
