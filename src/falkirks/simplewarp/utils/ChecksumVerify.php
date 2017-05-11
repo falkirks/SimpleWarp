@@ -4,6 +4,7 @@ namespace falkirks\simplewarp\utils;
 
 use pocketmine\plugin\PharPluginLoader;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Utils;
 
 class ChecksumVerify {
     const POGGIT_ENDPOINT = "https://poggit.pmmp.io/get.sha1/";
@@ -13,7 +14,7 @@ class ChecksumVerify {
      */
     public static function isValid(PluginBase $pluginBase){
         $url = ChecksumVerify::POGGIT_ENDPOINT . $pluginBase->getDescription()->getName() . "/" . $pluginBase->getDescription()->getVersion();
-        $hash = file_get_contents($url);
+        $hash = Utils::getURL($url);
         if($pluginBase->getPluginLoader() instanceof PharPluginLoader){
             $reflect = new \ReflectionClass($pluginBase);
             $method = $reflect->getMethod("getFile");
