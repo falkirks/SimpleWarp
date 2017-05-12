@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: noahheyl
- * Date: 2017-05-09
- * Time: 9:13 AM
- */
 
 namespace falkirks\simplewarp\utils;
 
