@@ -21,9 +21,10 @@ class ChecksumVerify {
             $method->setAccessible(true);
             $file = $method->invoke($pluginBase);
             $method->setAccessible(false);
-            $check = sha1_file(str_replace("phar://", "", $file));
 
-            return $check === $hash;
+            $phar = new \Phar($file);
+            $check = $phar->getSignature();
+            return $check["hash_type"] === "SHA-1" && $check["hash"] === $hash;
         }
         return false;
 
