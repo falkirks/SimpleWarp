@@ -19,7 +19,7 @@ class ChecksumVerify {
             $reflect = new \ReflectionClass($pluginBase);
             $method = $reflect->getMethod("getFile");
             $method->setAccessible(true);
-            $file = $pluginBase->getFile();
+            $file = $method->invoke($pluginBase);
             $method->setAccessible(false);
             $check = sha1_file($file);
 
