@@ -21,7 +21,7 @@ class ChecksumVerify {
             $method->setAccessible(true);
             $file = $method->invoke($pluginBase);
             $method->setAccessible(false);
-            $check = sha1_file($file);
+            $check = sha1_file(str_replace("phar://", "", $file));
 
             return $check === $hash;
         }
