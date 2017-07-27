@@ -2,7 +2,6 @@
 
 namespace falkirks\simplewarp\command;
 
-
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\event\WarpAddEvent;
@@ -34,7 +33,7 @@ class AddWarpCommand extends SimpleWarpCommand {
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args) {
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if (parent::execute($sender, $commandLabel, $args)) {
             if ($sender->hasPermission(SimpleWarpPermissions::ADD_WARP_COMMAND)) {
                 if (isset($args[0])) {
