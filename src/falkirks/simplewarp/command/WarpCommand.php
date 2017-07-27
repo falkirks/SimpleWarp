@@ -36,7 +36,7 @@ class WarpCommand extends SimpleWarpCommand {
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args) {
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if (parent::execute($sender, $commandLabel, $args)) {
             if ($sender->hasPermission(SimpleWarpPermissions::WARP_COMMAND)) {
                 if (isset($args[0])) {

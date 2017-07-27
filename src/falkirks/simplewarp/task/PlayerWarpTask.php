@@ -26,7 +26,7 @@ class PlayerWarpTask extends PluginTask{
      *
      * @return void
      */
-    public function onRun($currentTick){
+    public function onRun(int $currentTick){
         if($this->player instanceof Player && $this->player->isOnline()){
             if(!$this->getOwner()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)){
                 $this->warp->teleport($this->player);

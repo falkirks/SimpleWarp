@@ -16,7 +16,7 @@ use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\plugin\PluginException;
 use pocketmine\utils\TextFormat;
 
-abstract class SimpleWarpCommand extends Command implements PluginIdentifiableCommand {
+abstract class SimpleWarpCommand extends Command {
 
     /**
      * @param CommandSender $sender
@@ -25,7 +25,7 @@ abstract class SimpleWarpCommand extends Command implements PluginIdentifiableCo
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args){
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if($this->getPlugin()->isDisabled()){
             $sender->sendMessage($this->getPlugin()->getApi()->executeTranslationItem("plugin-disabled"));
             return false;

@@ -17,7 +17,7 @@ class EssentialsWarpCommand extends WarpCommand{
         $this->essCommand = $essCommand;
     }
 
-    public function execute(CommandSender $sender, $commandLabel, array $args){
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(isset($args[0])) {
             $ess = $this->getEssAPI();
             if (isset($this->api->getWarpManager()[$args[0]])) {
