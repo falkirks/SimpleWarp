@@ -72,9 +72,9 @@ class SimpleWarpAPI {
     /**
      * Gets a warp object with $name from the current WarpManager
      * @param $name
-     * @return Warp
+     * @return Warp|null
      */
-    public function getWarp($name): Warp{
+    public function getWarp($name){
         return $this->getWarpManager()[$name];
     }
 
