@@ -1,6 +1,6 @@
 <?php
-namespace falkirks\simplewarp\command;
 
+namespace falkirks\simplewarp\command;
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
@@ -12,6 +12,7 @@ use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\level\particle\FloatingTextParticle;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\plugin\Plugin;
 
 class ListWarpsCommand extends SimpleWarpCommand {
     private $api;
@@ -27,7 +28,7 @@ class ListWarpsCommand extends SimpleWarpCommand {
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args){
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(parent::execute($sender, $commandLabel, $args)) {
             if ($sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND)) {
                 $ret = $this->api->executeTranslationItem("listwarps-list-title");
@@ -66,7 +67,7 @@ class ListWarpsCommand extends SimpleWarpCommand {
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp{
+    public function getPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

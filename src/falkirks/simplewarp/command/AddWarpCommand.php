@@ -2,7 +2,6 @@
 
 namespace falkirks\simplewarp\command;
 
-
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\event\WarpAddEvent;
@@ -18,6 +17,7 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\plugin\Plugin;
 
 class AddWarpCommand extends SimpleWarpCommand {
     private $api;
@@ -34,7 +34,7 @@ class AddWarpCommand extends SimpleWarpCommand {
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args) {
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if (parent::execute($sender, $commandLabel, $args)) {
             if ($sender->hasPermission(SimpleWarpPermissions::ADD_WARP_COMMAND)) {
                 if (isset($args[0])) {
@@ -133,7 +133,7 @@ class AddWarpCommand extends SimpleWarpCommand {
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp {
+    public function getPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }
