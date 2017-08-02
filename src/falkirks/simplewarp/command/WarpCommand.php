@@ -2,7 +2,6 @@
 
 namespace falkirks\simplewarp\command;
 
-
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
 use falkirks\simplewarp\SimpleWarp;
@@ -20,6 +19,7 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\utils\Random;
 use pocketmine\utils\TextFormat;
+use pocketmine\plugin\Plugin;
 
 class WarpCommand extends SimpleWarpCommand {
     protected $api;
@@ -111,7 +111,7 @@ class WarpCommand extends SimpleWarpCommand {
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp {
+    public function getPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

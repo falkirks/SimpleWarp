@@ -1,6 +1,6 @@
 <?php
-namespace falkirks\simplewarp\command;
 
+namespace falkirks\simplewarp\command;
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\event\WarpDeleteEvent;
@@ -11,6 +11,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\utils\TextFormat;
+use pocketmine\plugin\Plugin;
 
 class DelWarpCommand extends SimpleWarpCommand {
     protected $api;
@@ -60,7 +61,7 @@ class DelWarpCommand extends SimpleWarpCommand {
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp{
+    public function getPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

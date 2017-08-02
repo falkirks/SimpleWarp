@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: noahheyl
- * Date: 2017-05-09
- * Time: 12:57 PM
- */
 
 namespace falkirks\simplewarp\command;
-
 
 use falkirks\simplewarp\SimpleWarp;
 use pocketmine\command\Command;
@@ -15,8 +8,9 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\plugin\PluginException;
 use pocketmine\utils\TextFormat;
+use pocketmine\plugin\Plugin;
 
-abstract class SimpleWarpCommand extends Command {
+abstract class SimpleWarpCommand extends Command implements PluginIdentifiableCommand {
 
     /**
      * @param CommandSender $sender
@@ -33,5 +27,5 @@ abstract class SimpleWarpCommand extends Command {
         return true;
     }
 
-    public abstract function getPlugin(): SimpleWarp;
+    public abstract function getPlugin(): Plugin;
 }

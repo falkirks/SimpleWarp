@@ -17,6 +17,7 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\plugin\Plugin;
 
 class AddWarpCommand extends SimpleWarpCommand {
     private $api;
@@ -132,7 +133,7 @@ class AddWarpCommand extends SimpleWarpCommand {
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp {
+    public function getPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }
