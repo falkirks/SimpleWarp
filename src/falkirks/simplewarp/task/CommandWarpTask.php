@@ -21,6 +21,7 @@ class CommandWarpTask extends PlayerWarpTask{
 
         if($this->getOwner()->getConfig()->get("hold-still-enabled")){
             if ($this->player->getName() !== $this->sender->getName()) {
+                $this->player->sendPopup($this->getOwner()->getApi()->executeTranslationItem("hold-still-popup"));
                 $this->sender->sendMessage($this->getOwner()->getApi()->executeTranslationItem("hold-still-other"));
             }
             else {

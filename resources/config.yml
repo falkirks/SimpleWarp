@@ -37,4 +37,4 @@ essentials-support: false
   # SimpleWarp will take steps to ensure compatibility between the
   # two plugins.
 hold-still-enabled: true
-hold-still-time: 100
+hold-still-time: 60
