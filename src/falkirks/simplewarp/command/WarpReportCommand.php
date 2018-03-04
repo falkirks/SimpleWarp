@@ -1,6 +1,6 @@
 <?php
-namespace falkirks\simplewarp\command;
 
+namespace falkirks\simplewarp\command;
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\event\WarpCloseEvent;
@@ -14,6 +14,7 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Utils;
+use pocketmine\plugin\Plugin;
 
 class WarpReportCommand extends SimpleWarpCommand {
     private $api;
@@ -29,7 +30,7 @@ class WarpReportCommand extends SimpleWarpCommand {
      *
      * @return mixed
      */
-    public function execute(CommandSender $sender, $commandLabel, array $args){
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(parent::execute($sender, $commandLabel, $args)) {
             if ($sender->hasPermission(SimpleWarpPermissions::WARP_REPORT_COMMAND)) {
                 $data = $this->getPlugin()->getDebugDumpFactory()->generate();
@@ -68,7 +69,7 @@ class WarpReportCommand extends SimpleWarpCommand {
     /**
      * @return \pocketmine\plugin\Plugin
      */
-    public function getPlugin(): SimpleWarp{
+    public function getPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

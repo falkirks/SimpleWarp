@@ -1,6 +1,12 @@
 ![SimpleWarp](/meta/simplewarp-2.png)
 
+![Poggit](https://poggit.pmmp.io/ci.shield/Falkirks/SimpleWarp/SimpleWarp)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Falkirks/SimpleWarp.svg)](http://isitmaintained.com/project/Falkirks/SimpleWarp "Average time to resolve an issue")
+![Total downloads](https://img.shields.io/github/downloads/Falkirks/SimpleWarp/total.svg)
+
 SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to move from point **A** to **B** with ease. At the core of SimpleWarp is simplicity and extensibility. Although very easy on the end user, it exposes a powerful backend for developers to hack around with.
+ 
+**SimpleWarp 2.0 is not compatible with older SimpleWarp and PocketMine versions.**
 
 ## Commands
 | Command | Usage | Description | 

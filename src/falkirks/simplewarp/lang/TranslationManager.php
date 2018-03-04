@@ -99,7 +99,7 @@ class TranslationManager {
 
         $this->registerDefault("warping-popup", "Warping...");
         $this->registerDefault("other-player-warped", "%s has been warped to " . TextFormat::AQUA . "%s" . TextFormat::RESET . ".");
-        $this->registerDefault("no-permission-this-warp", TextFormat::RED . "You don't have permission to use this warp." . TextFormat::RESET);
+        $this->registerDefault("no-permission-warp", TextFormat::RED . "You don't have permission to use this warp." . TextFormat::RESET);
         $this->registerDefault("no-permission-warp-other", TextFormat::RED . "You don't have permission to warp other players." . TextFormat::RESET);
         $this->registerDefault("warp-done", "You have been warped");
         $this->registerDefault("warp-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
