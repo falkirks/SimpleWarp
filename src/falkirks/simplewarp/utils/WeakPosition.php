@@ -17,7 +17,7 @@ class WeakPosition extends Position{
     public $level;
     public $levelName;
 
-    public function __construct($x = 0, $y = 0, $z = 0, $levelName){
+    public function __construct(float $x = 0, float $y = 0, float $z = 0, $levelName){
         parent::__construct($x, $y, $z, null);
         $this->levelName = $levelName;
     }

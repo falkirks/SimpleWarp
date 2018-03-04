@@ -1,8 +1,6 @@
 ![SimpleWarp](/meta/simplewarp-2.png)
 
-SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to move from point **A** to **B** with ease. At the core of SimpleWarp is simplicity and extensibility. Although very easy on the end user, it exposes a beast of a backend for developers to hack around with.
- 
-**SimpleWarp 2.0 is not compatible with older SimpleWarp and PocketMine versions.**
+SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to move from point **A** to **B** with ease. At the core of SimpleWarp is simplicity and extensibility. Although very easy on the end user, it exposes a powerful backend for developers to hack around with.
 
 ## Commands
 | Command | Usage | Description | 
@@ -13,6 +11,7 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
 | `/listwarps` | `/listwarps` | Prints out list of warps. |
 | `/openwarp` | `/openwarp <name>` | Allows any player to access specified warp. |
 | `/closewarp` | `/closewarp <name>` | Restricts specfied so that only players with correct permission node can use it |
+| `/warpreport` | `/warpreport [title]` | Run from console to generate a new GitHub issue for SimpleWarp |
 
 ## Permissions
 ```yaml
@@ -42,6 +41,11 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
       default: op
      simplewarp.command.closewarp:
        default: op
+     simplewarp.command.closewarp:
+       default: op
+   simplewarp.essentials.notice:
+    default: op
+    description: Recieve messages when their is warp conflict in Essentials
    simplewarp.warp:
     default: op
     description: Allows usage of all warps

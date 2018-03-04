@@ -4,7 +4,9 @@ namespace falkirks\simplewarp;
 use falkirks\simplewarp\event\PlayerWarpEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
 use pocketmine\command\CommandSender;
+use pocketmine\metadata\Metadatable;
 use pocketmine\Player;
+use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 
 /**
@@ -129,6 +131,5 @@ class Warp implements \JsonSerializable {
             'metadata' => $this->metadata
         ];
     }
-
 
 }
