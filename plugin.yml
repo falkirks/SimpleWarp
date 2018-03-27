@@ -26,9 +26,8 @@ permissions:
       default: op
      simplewarp.command.warp:
       default: true
-      children:
-        simplewarp.command.warp.other:
-         default: op
+     simplewarp.command.warp.other:
+      default: op
      simplewarp.command.openwarp:
       default: op
      simplewarp.command.closewarp:
