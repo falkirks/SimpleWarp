@@ -19,13 +19,13 @@ class CommandWarpTask extends PlayerWarpTask{
         parent::__construct($plugin, $warp, $player);
         $this->sender = $sender;
 
-        if($this->getOwner()->getConfig()->get("hold-still-enabled")){
+        if($this->getSimpleWarp()->getConfig()->get("hold-still-enabled")){
             if ($this->player->getName() !== $this->sender->getName()) {
-                $this->player->sendPopup($this->getOwner()->getApi()->executeTranslationItem("hold-still-popup"));
-                $this->sender->sendMessage($this->getOwner()->getApi()->executeTranslationItem("hold-still-other"));
+                $this->player->sendPopup($this->getSimpleWarp()->getApi()->executeTranslationItem("hold-still-popup"));
+                $this->sender->sendMessage($this->getSimpleWarp()->getApi()->executeTranslationItem("hold-still-other"));
             }
             else {
-                $this->player->sendPopup($this->getOwner()->getApi()->executeTranslationItem("hold-still-popup"));
+                $this->player->sendPopup($this->getSimpleWarp()->getApi()->executeTranslationItem("hold-still-popup"));
             }
         }
     }
@@ -39,27 +39,27 @@ class CommandWarpTask extends PlayerWarpTask{
      */
     public function onRun(int $currentTick){
         if($this->player instanceof Player && $this->player->isOnline()){
-            if(!$this->getOwner()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)) {
+            if(!$this->getSimpleWarp()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)) {
 
-                $this->player->sendPopup($this->getOwner()->getApi()->executeTranslationItem("warping-popup", $this->warp->getName()));
+                $this->player->sendPopup($this->getSimpleWarp()->getApi()->executeTranslationItem("warping-popup", $this->warp->getName()));
 
                 $this->warp->teleport($this->player);
 
                 $this->displaySmoke($this->position);
 
                 if ($this->player->getName() !== $this->sender->getName()) {
-                    $this->sender->sendMessage($this->getOwner()->getApi()->executeTranslationItem("other-player-warped", $this->player->getName(), $this->warp->getName()));
+                    $this->sender->sendMessage($this->getSimpleWarp()->getApi()->executeTranslationItem("other-player-warped", $this->player->getName(), $this->warp->getName()));
                 }
                 else {
-                    $this->sender->sendMessage($this->getOwner()->getApi()->executeTranslationItem("warp-done"));
+                    $this->sender->sendMessage($this->getSimpleWarp()->getApi()->executeTranslationItem("warp-done"));
                 }
             }
             else{
                 if ($this->player->getName() !== $this->sender->getName()) {
-                    $this->sender->sendMessage($this->getOwner()->getApi()->executeTranslationItem("hold-still-cancelled-other"));
+                    $this->sender->sendMessage($this->getSimpleWarp()->getApi()->executeTranslationItem("hold-still-cancelled-other"));
                 }
                 else {
-                    $this->sender->sendMessage($this->getOwner()->getApi()->executeTranslationItem("hold-still-cancelled"));
+                    $this->sender->sendMessage($this->getSimpleWarp()->getApi()->executeTranslationItem("hold-still-cancelled"));
                 }
             }
         }

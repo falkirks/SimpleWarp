@@ -4,16 +4,17 @@ namespace falkirks\simplewarp\task;
 
 use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Warp;
-use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\scheduler\PluginTask;
+use pocketmine\scheduler\Task;
 
-class PlayerWarpTask extends PluginTask{
+class PlayerWarpTask extends Task {
+    protected $simpleWarp;
+    
     protected $warp;
     protected $player;
     protected $position;
     public function __construct(SimpleWarp $plugin, Warp $warp, Player $player){
-        parent::__construct($plugin);
+        $this->simpleWarp = $plugin;
         $this->warp = $warp;
         $this->player = $player;
         $this->position = $player->getPosition();
@@ -28,22 +29,22 @@ class PlayerWarpTask extends PluginTask{
      */
     public function onRun(int $currentTick){
         if($this->player instanceof Player && $this->player->isOnline()){
-            if(!$this->getOwner()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)){
+            if(!$this->getSimpleWarp()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)){
                 $this->warp->teleport($this->player);
             }
         }
     }
 
     public function runNext(){
-        $this->getOwner()->getServer()->getScheduler()->scheduleTask($this);
+        $this->getSimpleWarp()->getScheduler()->scheduleTask($this);
     }
 
     public function runWithHoldStill(){
-        $this->getOwner()->getServer()->getScheduler()->scheduleDelayedTask($this, $this->getOwner()->getConfig()->get("hold-still-time"));
+        $this->getSimpleWarp()->getScheduler()->scheduleDelayedTask($this, $this->getSimpleWarp()->getConfig()->get("hold-still-time"));
     }
 
     public function run(){
-        if($this->getOwner()->getConfig()->get("hold-still-enabled")){
+        if($this->getSimpleWarp()->getConfig()->get("hold-still-enabled")){
             $this->runWithHoldStill();
         }
         else{
@@ -65,6 +66,15 @@ class PlayerWarpTask extends PluginTask{
     public function getPlayer(): Player{
         return $this->player;
     }
+
+    /**
+     * @return SimpleWarp
+     */
+    public function getSimpleWarp(): SimpleWarp{
+        return $this->simpleWarp;
+    }
+    
+    
 
 
 }
