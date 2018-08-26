@@ -4,6 +4,7 @@ namespace falkirks\simplewarp\utils;
 
 use pocketmine\plugin\PharPluginLoader;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Internet;
 use pocketmine\utils\Utils;
 
 class ChecksumVerify {
@@ -14,7 +15,7 @@ class ChecksumVerify {
      */
     public static function isValid(PluginBase $pluginBase){
         $url = ChecksumVerify::POGGIT_ENDPOINT . $pluginBase->getDescription()->getName() . "/" . $pluginBase->getDescription()->getVersion();
-        $hash = Utils::getURL($url);
+        $hash = Internet::getURL($url);
         if($pluginBase->getPluginLoader() instanceof PharPluginLoader){
             $reflect = new \ReflectionClass($pluginBase);
             $method = $reflect->getMethod("getFile");
