@@ -14,8 +14,7 @@ permissions:
     default: op
     children:
      simplewarp.command.list:
-      default: true
-      children:
+      default: op
        simplewarp.command.list.xyz:
         default: op
        simplewarp.command.list.visual:
