@@ -9,12 +9,14 @@ softdepend: ["FastTransfer", "SlowTransfer", "EssentialsPE"]
 permissions:
  simplewarp:
   default: op
+  permission: simplewarp
+  description: warp
   children:
    simplewarp.command:
     default: op
     children:
      simplewarp.command.list:
-      default: true
+      default: op
       children:
        simplewarp.command.list.xyz:
         default: op
