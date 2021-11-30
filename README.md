@@ -22,39 +22,33 @@ SimpleWarp is the original warp plugin for PocketMine-MP. It allows players to m
 ## Permissions
 ```yaml
  simplewarp:
-  default: op
-  children:
-   simplewarp.command:
-    default: op
-    children:
-     simplewarp.command.list:
-      default: true
-      children:
-       simplewarp.command.list.xyz:
-        default: op
-       simplewarp.command.list.visual:
-        default: op
-     simplewarp.command.addwarp:
-      default: op
-     simplewarp.command.delwarp:
-      default: op
-     simplewarp.command.warp:
-      default: true
-      children:
-        simplewarp.command.warp.other:
-         default: op
-     simplewarp.command.openwarp:
-      default: op
-     simplewarp.command.closewarp:
-       default: op
-     simplewarp.command.closewarp:
-       default: op
-   simplewarp.essentials.notice:
-    default: op
-    description: Recieve messages when their is warp conflict in Essentials
-   simplewarp.warp:
-    default: op
-    description: Allows usage of all warps
+   default: op
+ simplewarp.command:
+   default: op
+ simplewarp.command.list:
+   default: true
+ simplewarp.command.list.xyz:
+   default: op
+ simplewarp.command.list.visual:
+   default: op
+ simplewarp.command.addwarp:
+   default: op
+ simplewarp.command.delwarp:
+   default: op
+ simplewarp.command.warp:
+   default: true
+ simplewarp.command.warp.other:
+   default: op
+ simplewarp.command.openwarp:
+   default: op
+ simplewarp.command.closewarp:
+   default: op
+ simplewarp.essentials.notice:
+   default: op
+   description: Recieve messages when their is warp conflict in Essentials
+ simplewarp.warp:
+   default: op
+   description: Allows usage of all warps
 ```
 
 ## API
