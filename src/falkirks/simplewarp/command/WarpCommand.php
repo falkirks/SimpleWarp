@@ -8,21 +8,16 @@ use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\task\CommandWarpTask;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
-use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
-use pocketmine\level\particle\ExplodeParticle;
-use pocketmine\level\particle\FloatingTextParticle;
-use pocketmine\level\particle\SmokeParticle;
-use pocketmine\level\Position;
+use pocketmine\world\particle\SmokeParticle;
+use pocketmine\world\Position;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\Random;
-use pocketmine\utils\TextFormat;
 use pocketmine\plugin\Plugin;
 
 class WarpCommand extends SimpleWarpCommand {
-    protected $api;
+    protected SimpleWarpAPI $api;
 
     public function __construct(SimpleWarpAPI $api) {
         parent::__construct($api->executeTranslationItem("warp-cmd"), $api->executeTranslationItem("warp-desc"), $api->executeTranslationItem("warp-usage"));
@@ -33,21 +28,22 @@ class WarpCommand extends SimpleWarpCommand {
      * @param CommandSender $sender
      * @param string $commandLabel
      * @param string[] $args
-     *
-     * @return mixed
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if (parent::execute($sender, $commandLabel, $args)) {
             if ($sender->hasPermission(SimpleWarpPermissions::WARP_COMMAND)) {
                 if (isset($args[0])) {
                     if (isset($this->api->getWarpManager()[$args[0]])) {
+                        /** @var SimpleWarp $plugin */
+                        $plugin = $this->getOwningPlugin();
                         if (isset($args[1])) {
                             if ($sender->hasPermission(SimpleWarpPermissions::WARP_OTHER_COMMAND)) {
-                                if (($player = $this->api->getSimpleWarp()->getServer()->getPlayer($args[1])) instanceof Player) {
+                                if (($player = $this->api->getSimpleWarp()->getServer()->getPlayerExact($args[1])) instanceof Player) {
                                     /** @var Warp $warp */
                                     $warp = $this->api->getWarpManager()[$args[0]];
                                     if ($warp->canUse($sender)) {
-                                        $task = new CommandWarpTask($this->getPlugin(), $warp, $player, $sender);
+
+                                        $task = new CommandWarpTask($plugin, $warp, $player, $sender);
                                         $task->run();
                                     }
                                     else {
@@ -66,7 +62,7 @@ class WarpCommand extends SimpleWarpCommand {
                             /** @var Warp $warp */
                             $warp = $this->api->getWarpManager()[$args[0]];
                             if ($warp->canUse($sender)) {
-                                $task = new CommandWarpTask($this->getPlugin(), $warp, $sender, $sender);
+                                $task = new CommandWarpTask($plugin, $warp, $sender, $sender);
                                 $task->run();
                             }
                             else {
@@ -97,21 +93,18 @@ class WarpCommand extends SimpleWarpCommand {
         //particle smoke 120 71 124 1 1 1 35 200
         $random = new Random((int)(microtime(true) * 1000) + mt_rand());
 
-        $particle = new SmokeParticle(new Vector3($pos->x, $pos->y + 0.7, $pos->z), 200);
+        $particle = new SmokeParticle(200);
         for ($i = 0; $i < 35; ++$i) {
-            $particle->setComponents(
+            $vec = new Vector3(
                 $pos->x + $random->nextSignedFloat(),
                 $pos->y + $random->nextSignedFloat(),
                 $pos->z + $random->nextSignedFloat()
             );
-            $pos->getLevel()->addParticle($particle);
+            $pos->getWorld()->addParticle($vec, $particle);
         }
     }
 
-    /**
-     * @return \pocketmine\plugin\Plugin
-     */
-    public function getPlugin(): Plugin{
+    public function getOwningPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

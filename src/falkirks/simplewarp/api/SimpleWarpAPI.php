@@ -7,7 +7,7 @@ use falkirks\simplewarp\lang\TranslationManager;
 use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Warp;
 use falkirks\simplewarp\WarpManager;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 
 /**
@@ -121,9 +121,9 @@ class SimpleWarpAPI {
      * Checks if a player has permission to use a warp
      * @param Player $player
      * @param $name
-     * @return bool
+     * @return null|bool
      */
-    public function canPlayerUse(Player $player, $name): bool{
+    public function canPlayerUse(Player $player, $name): ?bool{
         $warp = $this->getWarp($name);
         if($warp instanceof Warp){
             return $warp->canUse($player);

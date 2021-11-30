@@ -6,21 +6,18 @@ use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\event\WarpAddEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
-use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\utils\WeakPosition;
 use falkirks\simplewarp\Version;
 use falkirks\simplewarp\Warp;
-use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
-use pocketmine\level\Level;
-use pocketmine\level\Position;
-use pocketmine\Player;
-use pocketmine\utils\TextFormat;
+use pocketmine\world\Position;
+use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\world\World;
 
 class AddWarpCommand extends SimpleWarpCommand {
-    private $api;
+
+    private SimpleWarpAPI $api;
 
     public function __construct(SimpleWarpAPI $api) {
         parent::__construct($api->executeTranslationItem("addwarp-cmd"), $api->executeTranslationItem("addwarp-desc"), $api->executeTranslationItem("addwarp-usage"));
@@ -31,8 +28,6 @@ class AddWarpCommand extends SimpleWarpCommand {
      * @param CommandSender $sender
      * @param string $commandLabel
      * @param string[] $args
-     *
-     * @return mixed
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if (parent::execute($sender, $commandLabel, $args)) {
@@ -43,12 +38,12 @@ class AddWarpCommand extends SimpleWarpCommand {
                             $sender->sendMessage($this->api->executeTranslationItem("addwarp-ess-prefix-warning"));
                         }
                         if (isset($args[3])) {
-                            $level = (isset($args[4]) ? $this->api->getSimpleWarp()->getServer()->getLevelByName($args[4]) : $this->api->getSimpleWarp()->getServer()->getDefaultLevel());
-                            if ($level instanceof Level) {
-                                $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $level->getName()));
+                            $world = (isset($args[4]) ? $this->api->getSimpleWarp()->getServer()->getWorldManager()->getWorldByName($args[4]) : $this->api->getSimpleWarp()->getServer()->getWorldManager()->getDefaultWorld());
+                            if ($world instanceof World) {
+                                $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $world->getFolderName()));
                                 $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                                 $ev = new WarpAddEvent($sender, $warp);
-                                $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                                $ev->call();
                                 if (!$ev->isCancelled()) {
                                     $this->api->getWarpManager()[$args[0]] = $warp;
                                     $sender->sendMessage($this->api->executeTranslationItem("warp-added-xyz", $args[0], $dest->toString()));
@@ -58,14 +53,14 @@ class AddWarpCommand extends SimpleWarpCommand {
                                 }
                             }
                             else {
-                                $sender->sendMessage($this->api->executeTranslationItem("level-not-loaded"));
+                                $sender->sendMessage($this->api->executeTranslationItem("world-not-loaded"));
                             }
                         }
                         elseif (isset($args[2])) {
                             $dest = new Destination($args[1], $args[2]);
                             $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                             $ev = new WarpAddEvent($sender, $warp);
-                            $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                            $ev->call();
                             if (!$ev->isCancelled()) {
                                 $this->api->getWarpManager()[$args[0]] = $warp;
                                 $sender->sendMessage($this->api->executeTranslationItem("warp-added-server", $args[0], $dest->toString()));
@@ -78,11 +73,11 @@ class AddWarpCommand extends SimpleWarpCommand {
                             }
                         }
                         elseif (isset($args[1])) {
-                            if (($player = $this->api->getSimpleWarp()->getServer()->getPlayer($args[1])) instanceof Player) {
-                                $dest = new Destination(new Position($player->getX(), $player->getY(), $player->getZ(), $player->getLevel()));
+                            if (($player = $this->api->getSimpleWarp()->getServer()->getPlayerExact($args[1])) instanceof Player) {
+                                $dest = new Destination($player->getPosition());
                                 $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                                 $ev = new WarpAddEvent($sender, $warp);
-                                $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                                $ev->call();
                                 if (!$ev->isCancelled()) {
                                     $this->api->getWarpManager()[$args[0]] = $warp;
                                     $sender->sendMessage($this->api->executeTranslationItem("warp-added-player", $args[0], $dest->toString()));
@@ -97,10 +92,10 @@ class AddWarpCommand extends SimpleWarpCommand {
                         }
                         else {
                             if ($sender instanceof Player) {
-                                $dest = new Destination(new Position($sender->getX(), $sender->getY(), $sender->getZ(), $sender->getLevel()));
+                                $dest = new Destination($sender->getPosition());
                                 $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                                 $ev = new WarpAddEvent($sender, $warp);
-                                $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                                $ev->call();
                                 if (!$ev->isCancelled()) {
                                     $this->api->getWarpManager()[$args[0]] = $warp;
                                     $sender->sendMessage($this->api->executeTranslationItem("warp-added-self", $args[0], $dest->toString()));
@@ -129,15 +124,7 @@ class AddWarpCommand extends SimpleWarpCommand {
         }
     }
 
-    public function generateCustomCommandData(Player $player) {
-        return parent::generateCustomCommandData($player); // TODO: Change the autogenerated stub
-    }
-
-
-    /**
-     * @return \pocketmine\plugin\Plugin
-     */
-    public function getPlugin(): Plugin{
+    public function getOwningPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

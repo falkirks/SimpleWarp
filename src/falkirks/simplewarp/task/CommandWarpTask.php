@@ -5,11 +5,10 @@ namespace falkirks\simplewarp\task;
 use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Warp;
 use pocketmine\command\CommandSender;
-use pocketmine\level\particle\SmokeParticle;
-use pocketmine\level\Position;
+use pocketmine\world\particle\SmokeParticle;
+use pocketmine\world\Position;
 use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\protocol\PlaySoundPacket;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\Random;
 
 class CommandWarpTask extends PlayerWarpTask{
@@ -33,11 +32,9 @@ class CommandWarpTask extends PlayerWarpTask{
     /**
      * Actions to execute when run
      *
-     * @param $currentTick
-     *
      * @return void
      */
-    public function onRun(int $currentTick){
+    public function onRun(): void {
         if($this->player instanceof Player && $this->player->isOnline()){
             if(!$this->getSimpleWarp()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)) {
 
@@ -69,14 +66,14 @@ class CommandWarpTask extends PlayerWarpTask{
         //particle smoke 120 71 124 1 1 1 35 200
         $random = new Random((int) (microtime(true) * 1000) + mt_rand());
 
-        $particle = new SmokeParticle(new Vector3($pos->x, $pos->y + 0.7, $pos->z), 200);
+        $particle = new SmokeParticle(200);
         for($i = 0; $i < 35; ++$i){
-            $particle->setComponents(
+            $vec = new Vector3(
                 $pos->x + $random->nextSignedFloat(),
                 $pos->y + $random->nextSignedFloat(),
                 $pos->z + $random->nextSignedFloat()
             );
-            $pos->getLevel()->addParticle($particle);
+            $pos->getWorld()->addParticle($vec, $particle);
         }
     }
 

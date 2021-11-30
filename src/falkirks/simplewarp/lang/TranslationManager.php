@@ -41,8 +41,9 @@ class TranslationManager {
     protected function registerDefaults(){
         $this->registerDefault("addwarp-cmd", "addwarp");
         $this->registerDefault("addwarp-desc", "Add new warps.");
-        $this->registerDefault("addwarp-usage", "/addwarp <name> [<ip> <port>|<x> <y> <z> <level>|<player>]");
+        $this->registerDefault("addwarp-usage", "/addwarp <name> [<ip> <port>|<x> <y> <z> <world>|<player>]");
         $this->registerDefault("addwarp-event-cancelled", "A plugin has cancelled the creation of this warp.");
+        $this->registerDefault("addwarp-no-perm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
         $this->registerDefault("closewarp-cmd", "closewarp");
         $this->registerDefault("closewarp-desc", "Close existing warps.");
@@ -75,7 +76,7 @@ class TranslationManager {
         $this->registerDefault("warp-added-server", "You have created a warp called " . TextFormat::AQUA . "%s" . TextFormat::RESET . " %s");
         $this->registerDefault("warp-added-self", "You have created a warp called " . TextFormat::AQUA . "%s" . TextFormat::RESET . " %s");
 
-        $this->registerDefault("level-not-loaded", TextFormat::RED . "You specified a level which isn't loaded.\nPlease see http://bit.ly/levelerror for explanation." . TextFormat::RESET);
+        $this->registerDefault("world-not-loaded", TextFormat::RED . "You specified a world which isn't loaded.\nPlease see http://bit.ly/levelerror for explanation." . TextFormat::RESET);
 
         $this->registerDefault("needs-external-warps", "This warp needs " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . " or a newer version of PocketMine.");
 
@@ -104,7 +105,7 @@ class TranslationManager {
         $this->registerDefault("warp-done", "You have been warped");
         $this->registerDefault("warp-noperm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
-        $this->registerDefault("level-not-loaded-warp", "The warp you are using is attached to a level which isn't loaded");
+        $this->registerDefault("world-not-loaded-warp", "The warp you are using is attached to a world which isn't loaded");
 
         $this->registerDefault("ess-warp-doesnt-exist", TextFormat::RED . "That warp doesn't exist." . TextFormat::RESET);
         $this->registerDefault("ess-warp-conflict",  "The warp called " . TextFormat::AQUA . "%s" . TextFormat::RESET . " exists in both " . TextFormat::AQUA . "EssentialsPE" . TextFormat::RESET . " and " . TextFormat::AQUA . "SimpleWarp" . TextFormat::RESET . ". The one from " . TextFormat::AQUA . "SimpleWarp" . TextFormat::RESET . " will be used by default. If you wish to use the " . TextFormat::AQUA . "EssentialsPE" . TextFormat::RESET . " warp, prefix the warp name with " . TextFormat::DARK_AQUA . "ess:" . TextFormat::RESET);

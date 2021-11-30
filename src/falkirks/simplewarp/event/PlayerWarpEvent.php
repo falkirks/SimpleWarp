@@ -5,10 +5,14 @@ namespace falkirks\simplewarp\event;
 use falkirks\simplewarp\Destination;
 use falkirks\simplewarp\Warp;
 use pocketmine\event\Cancellable;
+use pocketmine\event\CancellableTrait;
 use pocketmine\event\player\PlayerEvent;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class PlayerWarpEvent extends PlayerEvent implements Cancellable{
+
+    use CancellableTrait;
+
     public static $handlerList = null;
     /** @var  Warp */
     private $warp;

@@ -5,16 +5,12 @@ namespace falkirks\simplewarp\command;
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\event\WarpDeleteEvent;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
-use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Version;
-use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
-use pocketmine\utils\TextFormat;
 use pocketmine\plugin\Plugin;
 
 class DelWarpCommand extends SimpleWarpCommand {
-    protected $api;
+    protected SimpleWarpAPI $api;
     public function __construct(SimpleWarpAPI $api){
         parent::__construct($api->executeTranslationItem("delwarp-cmd"), $api->executeTranslationItem("delwarp-desc"), $api->executeTranslationItem("delwarp-usage"));
         $this->api = $api;
@@ -24,8 +20,6 @@ class DelWarpCommand extends SimpleWarpCommand {
      * @param CommandSender $sender
      * @param string $commandLabel
      * @param string[] $args
-     *
-     * @return mixed
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(parent::execute($sender, $commandLabel, $args)) {
@@ -33,7 +27,7 @@ class DelWarpCommand extends SimpleWarpCommand {
                 if (isset($args[0])) {
                     if (isset($this->api->getWarpManager()[$args[0]])) {
                         $ev = new WarpDeleteEvent($sender, $this->api->getWarpManager()[$args[0]]);
-                        $this->getPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                        $ev->call();
                         if (!$ev->isCancelled()) {
                             unset($this->api->getWarpManager()[$args[0]]);
                             $sender->sendMessage($this->api->executeTranslationItem("warp-deleted", $args[0]));
@@ -57,11 +51,7 @@ class DelWarpCommand extends SimpleWarpCommand {
         }
     }
 
-
-    /**
-     * @return \pocketmine\plugin\Plugin
-     */
-    public function getPlugin(): Plugin{
+    public function getOwningPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

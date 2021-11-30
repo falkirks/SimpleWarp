@@ -35,7 +35,7 @@ class SimpleWarp extends PluginBase{
     /** @var  Command[] */
     private $commands;
 
-    public function onEnable(){
+    public function onEnable(): void {
         $this->saveDefaultConfig();
 
         $this->api = new SimpleWarpAPI($this);
@@ -82,7 +82,7 @@ class SimpleWarp extends PluginBase{
             //TODO add negative response (in next version because I don't know if this works)
         }
     }
-    public function onDisable(){
+    public function onDisable(): void {
         $this->warpManager->saveAll();
 
         $this->warpManager = null;

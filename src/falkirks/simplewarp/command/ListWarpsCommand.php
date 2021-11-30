@@ -4,18 +4,15 @@ namespace falkirks\simplewarp\command;
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\permission\SimpleWarpPermissions;
-use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Warp;
-use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
-use pocketmine\level\particle\FloatingTextParticle;
-use pocketmine\Player;
+use pocketmine\world\particle\FloatingTextParticle;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\plugin\Plugin;
 
 class ListWarpsCommand extends SimpleWarpCommand {
-    private $api;
+    private SimpleWarpAPI $api;
     public function __construct(SimpleWarpAPI $api){
         parent::__construct($api->executeTranslationItem("listwarps-cmd"), $api->executeTranslationItem("listwarps-desc"), $api->executeTranslationItem("listwarps-usage"));
         $this->api = $api;
@@ -25,8 +22,6 @@ class ListWarpsCommand extends SimpleWarpCommand {
      * @param CommandSender $sender
      * @param string $commandLabel
      * @param string[] $args
-     *
-     * @return mixed
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(parent::execute($sender, $commandLabel, $args)) {
@@ -35,7 +30,7 @@ class ListWarpsCommand extends SimpleWarpCommand {
                 /** @var Warp[] $iterator */
                 $iterator = $this->api->getWarpManager();
                 foreach ($iterator as $w) {
-                    if ($w->canUse($sender)) {
+                    if (!is_null($w) && $w->canUse($sender)) {
                         $ret .= " * " . $w->getName() . " ";
                         if ($sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND_XYZ)) {
                             $dest = $w->getDestination();
@@ -49,9 +44,9 @@ class ListWarpsCommand extends SimpleWarpCommand {
                  */
                 if ($sender instanceof Player && $sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND_VISUAL) && isset($args[0]) && $args[0] === "v") {
                     foreach ($iterator as $warp) {
-                        if ($warp->getDestination()->isInternal() && $warp->getDestination()->getPosition()->getLevel() === $sender->getLevel()) {
-                            $particle = new FloatingTextParticle($warp->getDestination()->getPosition(), "(X: {$warp->getDestination()->getPosition()->getFloorX()}}, Y: {$warp->getDestination()->getPosition()->getFloorY()}, Z: {$warp->getDestination()->getPosition()->getFloorZ()}, LEVEL: {$warp->getDestination()->getPosition()->getLevel()->getName()})", "WARP: " . TextFormat::AQUA . $warp->getName() . TextFormat::RESET);
-                            $sender->getLevel()->addParticle($particle, [$sender]);
+                        if ($warp->getDestination()->isInternal() && $warp->getDestination()->getPosition()->getWorld() === $sender->getWorld()) {
+                            $particle = new FloatingTextParticle("(X: {$warp->getDestination()->getPosition()->getFloorX()}}, Y: {$warp->getDestination()->getPosition()->getFloorY()}, Z: {$warp->getDestination()->getPosition()->getFloorZ()}, WORLD: {$warp->getDestination()->getPosition()->getWorld()->getDisplayName()})", "WARP: " . TextFormat::AQUA . $warp->getName() . TextFormat::RESET);
+                            $sender->getWorld()->addParticle($warp->getDestination()->getPosition(), $particle, [$sender]);
                         }
                     }
                 }
@@ -63,11 +58,7 @@ class ListWarpsCommand extends SimpleWarpCommand {
         }
     }
 
-
-    /**
-     * @return \pocketmine\plugin\Plugin
-     */
-    public function getPlugin(): Plugin{
+    public function getOwningPlugin(): Plugin{
         return $this->api->getSimpleWarp();
     }
 }

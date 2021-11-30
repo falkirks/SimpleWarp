@@ -5,8 +5,8 @@ namespace falkirks\simplewarp;
 
 use falkirks\simplewarp\api\SimpleWarpAPI;
 use falkirks\simplewarp\utils\WeakPosition;
-use pocketmine\level\Position;
-use pocketmine\Player;
+use pocketmine\world\Position;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
@@ -54,7 +54,7 @@ class Destination{
                 $player->teleport($this->position);
             }
             else{
-                $player->sendMessage($this->getApi()->executeTranslationItem("level-not-loaded-warp"));
+                $player->sendMessage($this->getApi()->executeTranslationItem("world-not-loaded-warp"));
             }
         }
         else{
@@ -63,7 +63,7 @@ class Destination{
                 $player->transfer($this->address, $this->port);
             }
             elseif($plugin instanceof PluginBase && $plugin->isEnabled()){
-                $plugin->transferPlayer($player, $this->address, $this->port);
+                $player->transfer($this->address, $this->port);
             }
             else{
                 $player->getServer()->getPluginManager()->getPlugin("SimpleWarp")->getLogger()->warning("In order to use warps to other servers, you must install " . TextFormat::AQUA . "FastTransfer" . TextFormat::RESET . " or use a newer PocketMine version.");
@@ -98,16 +98,16 @@ class Destination{
     public function toString(){
         if($this->isInternal()) {
             if($this->position instanceof WeakPosition){
-                $levelName = $this->position->levelName;
+                $worldName = $this->position->worldName;
             }
             else{
-                $levelName = $this->position->getLevel()->getName();
+                $worldName = $this->position->getWorld()->getFolderName();
             }
             if($this->getApi()->getConfigItem("display-exact-coordinates")) {
-                return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$levelName})";
+                return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$worldName})";
             }
             else{
-                return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $levelName . ")";
+                return "(X: {$this->getPosition()->getFloorX()}, Y: {$this->getPosition()->getFloorY()}, Z: {$this->getPosition()->getFloorZ()}, LEVEL: " . $worldName . ")";
             }
         }
         return "(IP: {$this->getAddress()}, PORT: {$this->getPort()})";
