@@ -5,8 +5,12 @@ namespace falkirks\simplewarp\event;
 use falkirks\simplewarp\Warp;
 use pocketmine\command\CommandSender;
 use pocketmine\event\Cancellable;
+use pocketmine\event\CancellableTrait;
 
 class WarpDeleteEvent extends WarpEvent implements  Cancellable{
+
+    use CancellableTrait;
+
     public static $handlerList = null;
 
     /** @var CommandSender  */

@@ -2,15 +2,12 @@
 
 namespace falkirks\simplewarp\command;
 
-use falkirks\simplewarp\SimpleWarp;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
-use pocketmine\plugin\PluginException;
-use pocketmine\utils\TextFormat;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\Plugin;
 
-abstract class SimpleWarpCommand extends Command implements PluginIdentifiableCommand {
+abstract class SimpleWarpCommand extends Command implements PluginOwned {
 
     /**
      * @param CommandSender $sender
@@ -26,6 +23,4 @@ abstract class SimpleWarpCommand extends Command implements PluginIdentifiableCo
         }
         return true;
     }
-
-    public abstract function getPlugin(): Plugin;
 }

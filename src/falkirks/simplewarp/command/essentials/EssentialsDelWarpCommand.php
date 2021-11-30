@@ -50,7 +50,7 @@ class EssentialsDelWarpCommand extends DelWarpCommand{
     }
 
     private function getEssAPI(){
-        $ess = $this->getPlugin()->getServer()->getPluginManager()->getPlugin("EssentialsPE");
+        $ess = $this->getOwningPlugin()->getServer()->getPluginManager()->getPlugin("EssentialsPE");
         if(method_exists($ess, "getAPI")){
             return $ess->getAPI();
         }

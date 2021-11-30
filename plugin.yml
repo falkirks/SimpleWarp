@@ -3,40 +3,35 @@ name: SimpleWarp
 main: falkirks\simplewarp\SimpleWarp
 version: 4.0.1
 author: Falkirks
-api: [3.0.0, 4.0.0]
+api: [4.0.0]
 load: POSTWORLD
 softdepend: ["FastTransfer", "SlowTransfer", "EssentialsPE"]
 permissions:
  simplewarp:
   default: op
-  children:
-   simplewarp.command:
-    default: op
-    children:
-     simplewarp.command.list:
-      default: true
-      children:
-       simplewarp.command.list.xyz:
-        default: op
-       simplewarp.command.list.visual:
-        default: op
-     simplewarp.command.addwarp:
-      default: op
-     simplewarp.command.delwarp:
-      default: op
-     simplewarp.command.warp:
-      default: true
-     simplewarp.command.warp.other:
-      default: op
-     simplewarp.command.openwarp:
-      default: op
-     simplewarp.command.closewarp:
-       default: op
-     simplewarp.command.closewarp:
-       default: op
-   simplewarp.essentials.notice:
-    default: op
-    description: Recieve messages when their is warp conflict in Essentials
-   simplewarp.warp:
-    default: op
-    description: Allows usage of all warps
+ simplewarp.command:
+  default: op
+ simplewarp.command.list:
+  default: true
+ simplewarp.command.list.xyz:
+  default: op
+ simplewarp.command.list.visual:
+  default: op
+ simplewarp.command.addwarp:
+  default: op
+ simplewarp.command.delwarp:
+  default: op
+ simplewarp.command.warp:
+  default: true
+ simplewarp.command.warp.other:
+  default: op
+ simplewarp.command.openwarp:
+  default: op
+ simplewarp.command.closewarp:
+   default: op
+ simplewarp.essentials.notice:
+  default: op
+  description: Recieve messages when their is warp conflict in Essentials
+ simplewarp.warp:
+  default: op
+  description: Allows usage of all warps

@@ -4,7 +4,7 @@ namespace falkirks\simplewarp\task;
 
 use falkirks\simplewarp\SimpleWarp;
 use falkirks\simplewarp\Warp;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
 class PlayerWarpTask extends Task {
@@ -23,11 +23,9 @@ class PlayerWarpTask extends Task {
     /**
      * Actions to execute when run
      *
-     * @param $currentTick
-     *
      * @return void
      */
-    public function onRun(int $currentTick){
+    public function onRun(): void {
         if($this->player instanceof Player && $this->player->isOnline()){
             if(!$this->getSimpleWarp()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)){
                 $this->warp->teleport($this->player);

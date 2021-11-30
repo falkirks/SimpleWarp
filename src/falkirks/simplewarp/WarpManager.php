@@ -7,9 +7,8 @@ use falkirks\simplewarp\store\DataStore;
 use falkirks\simplewarp\store\Reloadable;
 use falkirks\simplewarp\store\Saveable;
 use falkirks\simplewarp\utils\WeakPosition;
-use pocketmine\level\Level;
-use pocketmine\level\Position;
-use pocketmine\network\protocol\DataPacket;
+use pocketmine\world\World;
+use pocketmine\world\Position;
 use pocketmine\utils\TextFormat;
 use Traversable;
 
@@ -191,7 +190,7 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
                 "x" => $pos->getX(),
                 "y" => $pos->getY(),
                 "z" => $pos->getZ(),
-                "level" => ($pos instanceof WeakPosition ? $pos->getLevelName() : $pos->getLevel()->getName()),
+                "world" => ($pos instanceof WeakPosition ? $pos->getWorldName() : $pos->getWorld()->getDisplayName()),
                 "public" => $warp->isPublic(),
             ];
         }
