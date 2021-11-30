@@ -30,7 +30,7 @@ class CloseWarpCommand extends SimpleWarpCommand {
                         /** @var Warp $warp */
                         $warp = $this->api->getWarpManager()[$args[0]];
                         $ev = new WarpCloseEvent($sender, $warp);
-                        $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                        $ev->call();
                         if (!$ev->isCancelled()) {
                             $warp->setPublic(false);
                             $sender->sendMessage($this->api->executeTranslationItem("closed-warp-1", $args[0]));

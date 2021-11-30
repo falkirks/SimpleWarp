@@ -27,7 +27,7 @@ class DelWarpCommand extends SimpleWarpCommand {
                 if (isset($args[0])) {
                     if (isset($this->api->getWarpManager()[$args[0]])) {
                         $ev = new WarpDeleteEvent($sender, $this->api->getWarpManager()[$args[0]]);
-                        $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                        $ev->call();
                         if (!$ev->isCancelled()) {
                             unset($this->api->getWarpManager()[$args[0]]);
                             $sender->sendMessage($this->api->executeTranslationItem("warp-deleted", $args[0]));

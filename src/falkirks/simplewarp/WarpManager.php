@@ -190,7 +190,7 @@ class WarpManager implements \ArrayAccess, \IteratorAggregate{
                 "x" => $pos->getX(),
                 "y" => $pos->getY(),
                 "z" => $pos->getZ(),
-                "world" => ($pos instanceof WeakPosition ? $pos->getWorldName() : $pos->getWorld()->getDisplayName()),
+                "world" => ($pos instanceof WeakPosition ? $pos->getWorldName() : $pos->getWorld()->getFolderName()),
                 "public" => $warp->isPublic(),
             ];
         }

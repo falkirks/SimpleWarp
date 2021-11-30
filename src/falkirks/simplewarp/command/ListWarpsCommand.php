@@ -30,7 +30,7 @@ class ListWarpsCommand extends SimpleWarpCommand {
                 /** @var Warp[] $iterator */
                 $iterator = $this->api->getWarpManager();
                 foreach ($iterator as $w) {
-                    if ($w->canUse($sender)) {
+                    if (!is_null($w) && $w->canUse($sender)) {
                         $ret .= " * " . $w->getName() . " ";
                         if ($sender->hasPermission(SimpleWarpPermissions::LIST_WARPS_COMMAND_XYZ)) {
                             $dest = $w->getDestination();

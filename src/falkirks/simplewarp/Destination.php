@@ -101,7 +101,7 @@ class Destination{
                 $worldName = $this->position->worldName;
             }
             else{
-                $worldName = $this->position->getWorld()->getDisplayName();
+                $worldName = $this->position->getWorld()->getFolderName();
             }
             if($this->getApi()->getConfigItem("display-exact-coordinates")) {
                 return "(X: {$this->getPosition()->x}, Y: {$this->getPosition()->y}, Z: {$this->getPosition()->z}, LEVEL: {$worldName})";

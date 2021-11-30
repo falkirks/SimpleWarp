@@ -43,6 +43,7 @@ class TranslationManager {
         $this->registerDefault("addwarp-desc", "Add new warps.");
         $this->registerDefault("addwarp-usage", "/addwarp <name> [<ip> <port>|<x> <y> <z> <world>|<player>]");
         $this->registerDefault("addwarp-event-cancelled", "A plugin has cancelled the creation of this warp.");
+        $this->registerDefault("addwarp-no-perm", TextFormat::RED . "You don't have permission to use this command" . TextFormat::RESET);
 
         $this->registerDefault("closewarp-cmd", "closewarp");
         $this->registerDefault("closewarp-desc", "Close existing warps.");

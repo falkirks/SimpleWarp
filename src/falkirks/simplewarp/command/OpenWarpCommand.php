@@ -30,7 +30,7 @@ class OpenWarpCommand extends SimpleWarpCommand {
                         /** @var Warp $warp */
                         $warp = $this->api->getWarpManager()[$args[0]];
                         $ev = new WarpOpenEvent($sender, $warp);
-                        $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                        $ev->call();
                         if (!$ev->isCancelled()) {
                             $warp->setPublic(true);
                             $sender->sendMessage($this->api->executeTranslationItem("opened-warp-1", $args[0]));

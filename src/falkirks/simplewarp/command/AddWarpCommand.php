@@ -40,10 +40,10 @@ class AddWarpCommand extends SimpleWarpCommand {
                         if (isset($args[3])) {
                             $world = (isset($args[4]) ? $this->api->getSimpleWarp()->getServer()->getWorldManager()->getWorldByName($args[4]) : $this->api->getSimpleWarp()->getServer()->getWorldManager()->getDefaultWorld());
                             if ($world instanceof World) {
-                                $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $world->getDisplayName()));
+                                $dest = new Destination(new WeakPosition($args[1], $args[2], $args[3], $world->getFolderName()));
                                 $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                                 $ev = new WarpAddEvent($sender, $warp);
-                                $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                                $ev->call();
                                 if (!$ev->isCancelled()) {
                                     $this->api->getWarpManager()[$args[0]] = $warp;
                                     $sender->sendMessage($this->api->executeTranslationItem("warp-added-xyz", $args[0], $dest->toString()));
@@ -60,7 +60,7 @@ class AddWarpCommand extends SimpleWarpCommand {
                             $dest = new Destination($args[1], $args[2]);
                             $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                             $ev = new WarpAddEvent($sender, $warp);
-                            $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                            $ev->call();
                             if (!$ev->isCancelled()) {
                                 $this->api->getWarpManager()[$args[0]] = $warp;
                                 $sender->sendMessage($this->api->executeTranslationItem("warp-added-server", $args[0], $dest->toString()));
@@ -77,7 +77,7 @@ class AddWarpCommand extends SimpleWarpCommand {
                                 $dest = new Destination($player->getPosition());
                                 $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                                 $ev = new WarpAddEvent($sender, $warp);
-                                $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                                $ev->call();
                                 if (!$ev->isCancelled()) {
                                     $this->api->getWarpManager()[$args[0]] = $warp;
                                     $sender->sendMessage($this->api->executeTranslationItem("warp-added-player", $args[0], $dest->toString()));
@@ -95,7 +95,7 @@ class AddWarpCommand extends SimpleWarpCommand {
                                 $dest = new Destination($sender->getPosition());
                                 $warp = new Warp($this->api->getWarpManager(), $args[0], $dest);
                                 $ev = new WarpAddEvent($sender, $warp);
-                                $this->getOwningPlugin()->getServer()->getPluginManager()->callEvent($ev);
+                                $ev->call();
                                 if (!$ev->isCancelled()) {
                                     $this->api->getWarpManager()[$args[0]] = $warp;
                                     $sender->sendMessage($this->api->executeTranslationItem("warp-added-self", $args[0], $dest->toString()));

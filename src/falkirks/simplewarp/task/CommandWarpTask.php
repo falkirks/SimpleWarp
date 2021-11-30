@@ -32,11 +32,9 @@ class CommandWarpTask extends PlayerWarpTask{
     /**
      * Actions to execute when run
      *
-     * @param $currentTick
-     *
      * @return void
      */
-    public function onRun(int $currentTick){
+    public function onRun(): void {
         if($this->player instanceof Player && $this->player->isOnline()){
             if(!$this->getSimpleWarp()->getConfig()->get("hold-still-enabled") || $this->player->getPosition()->equals($this->position)) {
 
@@ -70,12 +68,12 @@ class CommandWarpTask extends PlayerWarpTask{
 
         $particle = new SmokeParticle(200);
         for($i = 0; $i < 35; ++$i){
-            $pos = new Vector3(
+            $vec = new Vector3(
                 $pos->x + $random->nextSignedFloat(),
                 $pos->y + $random->nextSignedFloat(),
                 $pos->z + $random->nextSignedFloat()
             );
-            $pos->getWorld()->addParticle($pos, $particle);
+            $pos->getWorld()->addParticle($vec, $particle);
         }
     }
 
